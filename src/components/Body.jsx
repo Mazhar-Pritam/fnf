@@ -1,7 +1,5 @@
 function Body() {
   return (
-    <div className="main-panel">
-        <Header />
          <div className="container">
           <div className="page-inner">
             <div
@@ -616,7 +614,6 @@ function Body() {
             </div>
           </div>
         </div>
-      </div>
     );
 }
 
