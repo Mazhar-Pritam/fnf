@@ -1,32 +1,21 @@
+import React from 'react';
+import { Link } from 'react-router';
 function Categories() {
 
-  const categories = [
-    {
-      id: 1,
-      name: "Engine Parts",
-      description: "Engine related spare parts"
-    },
-    {
-      id: 2,
-      name: "Brake Parts",
-      description: "Brake system parts"
-    },
-    {
-      id: 3,
-      name: "Filters",
-      description: "Oil, Air and Fuel Filters"
-    },
-    {
-      id: 4,
-      name: "Electrical",
-      description: "Battery, Lights, Sensors"
-    },
-    {
-      id: 5,
-      name: "Suspension",
-      description: "Shock absorber and suspension parts"
-    }
-  ];
+  const [categories, setCategories] = React.useState([]);
+
+  function fetchCategories() {
+    fetch('http://localhost/fnf_api/category/index.php')
+      .then(response => response.json())
+      .then(data => setCategories(data.data))
+      .catch(error => console.error('Error fetching categories:', error));
+  }
+
+  React.useEffect(() => {
+    fetchCategories();
+  }
+, []);
+ 
 
   return (
     <div className="container">
@@ -66,10 +55,10 @@ function Categories() {
                     Parts Categories
                   </h4>
 
-                  <button className="btn btn-primary btn-round ms-auto">
+                  <Link to="/categories/create" className="btn btn-primary btn-round ms-auto">
                     <i className="fa fa-plus"></i>
                     &nbsp; Add Category
-                  </button>
+                  </Link>
 
                 </div>
               </div>

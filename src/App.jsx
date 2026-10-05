@@ -4,7 +4,8 @@ import Body from "./pages/Body.jsx";
 import Form from "./pages/Form.jsx";
 import Footer from "./components/Footer.jsx";
 import Inventory from "./pages/Inventory.jsx";
-import Categories from "./pages/Categories.jsx"; 
+import Categories from "./pages/Categories/Index.jsx"; 
+import CategoryCreate from "./pages/Categories/Create.jsx"; 
 import { BrowserRouter, Routes, Route } from "react-router";
 import Suppliers from "./pages/Suppliers.jsx";
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/form" element={<Form />} />
                     <Route path="/inventory" element={<Inventory />} />
                     <Route path="/categories" element={<Categories />} />
+                    <Route path="/categories/create" element={<CategoryCreate />} />
                     <Route path="/suppliers" element={<Suppliers />} />
                 </Routes>
                 <Footer />
