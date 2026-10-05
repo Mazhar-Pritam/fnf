@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function Sidebar() {
   return (
     <div className="sidebar" data-background-color="dark">
@@ -28,25 +30,16 @@ function Sidebar() {
           <div className="sidebar-content">
             <ul className="nav nav-secondary">
               <li className="nav-item active">
-                <a
+                <Link
                   data-bs-toggle="collapse"
-                  href="#dashboard"
+                  to="/"
                   className="collapsed"
                   aria-expanded="false"
                 >
                   <i className="fas fa-home"></i>
                   <p>Dashboard</p>
                   <span className="caret"></span>
-                </a>
-                <div className="collapse" id="dashboard">
-                  <ul className="nav nav-collapse">
-                    <li>
-                      <a href="../demo1/index.html">
-                        <span className="sub-item">Dashboard 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                </Link>
               </li>
               <li className="nav-section">
                 <span className="sidebar-mini-icon">
@@ -55,11 +48,11 @@ function Sidebar() {
                 <h4 className="text-section">Components</h4>
               </li>
               <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
+                <Link data-bs-toggle="collapse" to="#base">
                   <i className="fas fa-layer-group"></i>
                   <p>Base</p>
                   <span className="caret"></span>
-                </a>
+                </Link>
                 <div className="collapse" id="base">
                   <ul className="nav nav-collapse">
                     <li>
@@ -132,21 +125,34 @@ function Sidebar() {
                 </div>
               </li>
               <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
+                <Link data-bs-toggle="collapse" to="/form">
                   <i className="fas fa-pen-square"></i>
                   <p>Forms</p>
                   <span className="caret"></span>
-                </a>
-                <div className="collapse" id="forms">
-                  <ul className="nav nav-collapse">
-                    <li>
-                      <a href="forms/forms.html">
-                        <span className="sub-item">Basic Form</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                </Link>
+                
               </li>
+              <li className="nav-item">
+                <Link data-bs-toggle="collapse" to="/inventory">
+                  <i className="fas fa-pen-square"></i>
+                  <p>Inventory</p>
+                  <span className="caret"></span>
+                </Link>
+                </li>
+              <li className="nav-item">
+                <Link data-bs-toggle="collapse" to="/categories">
+                  <i className="fas fa-pen-square"></i>
+                  <p>Categories</p>
+                  <span className="caret"></span>
+                </Link>
+                </li>
+                <li className="nav-item">
+                <Link data-bs-toggle="collapse" to="/suppliers">
+                  <i className="fas fa-pen-square"></i>
+                  <p>Suppliers</p>
+                  <span className="caret"></span>
+                </Link>
+                </li>
               <li className="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                   <i className="fas fa-table"></i>
