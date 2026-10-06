@@ -6,6 +6,7 @@ import Footer from "./components/Footer.jsx";
 import Inventory from "./pages/Inventory.jsx";
 import Categories from "./pages/Categories/Index.jsx"; 
 import CategoryCreate from "./pages/Categories/Create.jsx"; 
+import CategoryEdit from "./pages/Categories/Edit.jsx"; 
 import { BrowserRouter, Routes, Route } from "react-router";
 import Suppliers from "./pages/Suppliers.jsx";
 function App() {
@@ -19,8 +20,13 @@ function App() {
                     <Route path="/" element={<Body/>} />
                     <Route path="/form" element={<Form />} />
                     <Route path="/inventory" element={<Inventory />} />
-                    <Route path="/categories" element={<Categories />} />
-                    <Route path="/categories/create" element={<CategoryCreate />} />
+                   
+                    <Route path="categories">
+                      <Route index element={<Categories />} />
+                      <Route path="create" element={<CategoryCreate />} />
+                      <Route path="edit/:id" element={<CategoryEdit />} />
+                    </Route>
+
                     <Route path="/suppliers" element={<Suppliers />} />
                 </Routes>
                 <Footer />

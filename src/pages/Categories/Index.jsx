@@ -14,8 +14,22 @@ function Categories() {
   React.useEffect(() => {
     fetchCategories();
   }
-, []);
- 
+, [categories]);
+
+function handleDelete(id) {
+  if (window.confirm("Are you sure you want to delete this category?")) {
+    fetch(`http://localhost/fnf_api/category/delete.php?id=${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status == 'true') {
+          fetchCategories();
+        }
+      })
+      .catch(error => console.error('Error deleting category:', error));
+  }
+}
 
   return (
     <div className="container">
@@ -110,49 +124,37 @@ function Categories() {
                             <strong>{category.name}</strong>
                           </td>
 
-                          <td>
-                            {category.description}
-                          </td>
+                          <td>{category.description}</td>
 
                           <td>
 
                             <div className="form-button-action">
 
-                              <button
+                              <Link to={`/categories/edit/${category.id}`}
                                 className="btn btn-link btn-primary"
                                 title="Edit"
                               >
                                 <i className="fa fa-edit"></i>
-                              </button>
+                              </Link>
 
                               <button
                                 className="btn btn-link btn-danger"
                                 title="Delete"
+                                onClick={() => handleDelete(category.id)}
                               >
                                 <i className="fa fa-trash"></i>
                               </button>
-
                             </div>
-
                           </td>
-
                         </tr>
-
                       ))}
-
                     </tbody>
-
                   </table>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
   );
