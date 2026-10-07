@@ -2,13 +2,25 @@ import { useEffect, useState } from "react";
 
 function Suppliers() {
 
-  // Supplier data রাখার জন্য
+  // Supplier data
   const [suppliers, setSuppliers] = useState([]);
 
-  // Component load হলে API থেকে supplier আনবে
+  // Show / hide add supplier form
+  const [showForm, setShowForm] = useState(false);
+
+  // Form data
+  const [formData, setFormData] = useState({
+    name: "",
+    contact_person: "",
+    phone: "",
+    email: "",
+    address: ""
+  });
+
+  // Load suppliers from API
   useEffect(() => {
 
-    fetch("http://localhost/your-project/api/suppliers/index.php")
+    fetch("http://localhost/fnf_api/suppliers/index.php")
       .then(response => response.json())
       .then(result => {
 
@@ -23,6 +35,74 @@ function Suppliers() {
 
   }, []);
 
+  // Handle form input
+  const handleChange = (e) => {
+
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+
+  };
+
+  // Save supplier
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+
+    fetch("http://localhost/fnf_api/suppliers/insert.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(result => {
+
+        if (result.status) {
+
+          alert("Supplier added successfully");
+
+          setFormData({
+            name: "",
+            contact_person: "",
+            phone: "",
+            email: "",
+            address: ""
+          });
+
+          setShowForm(false);
+
+          // Reload supplier list
+          fetch("http://localhost/fnf_api/suppliers/index.php")
+            .then(response => response.json())
+            .then(result => {
+
+              if (result.status) {
+                setSuppliers(result.data);
+              }
+
+            })
+            .catch(error => {
+              console.error("Error reloading suppliers:", error);
+            });
+
+        } else {
+
+          alert(result.message);
+
+        }
+
+      })
+      .catch(error => {
+        console.error("Error adding supplier:", error);
+        alert("Something went wrong while adding supplier.");
+      });
+
+  };
 
   return (
     <div className="container">
@@ -58,145 +138,162 @@ function Suppliers() {
         </div>
 
 
-        {/* Supplier Table */}
-        <div className="row">
+        {/* Add Supplier Form */}
+        {showForm && (
+          <div className="row mb-4">
 
-          <div className="col-md-12">
+            <div className="col-md-12">
 
-            <div className="card card-round">
+              <div className="card card-round">
 
-              {/* Card Header */}
-              <div className="card-header">
+                <div className="card-header">
 
-                <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center">
 
-                  <h4 className="card-title">
-                    Supplier List
-                  </h4>
+                    <h4 className="card-title">
+                      Add Supplier
+                    </h4>
 
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-round ms-auto"
-                  >
-                    <i className="fa fa-plus"></i>
-                    &nbsp; Add Supplier
-                  </button>
-
-                </div>
-
-              </div>
-
-
-              {/* Card Body */}
-              <div className="card-body">
-
-                {/* Search */}
-                <div className="row mb-3">
-
-                  <div className="col-md-4">
-
-                    <div className="input-icon">
-
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search supplier..."
-                      />
-
-                      <span className="input-icon-addon">
-                        <i className="fa fa-search"></i>
-                      </span>
-
-                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-round ms-auto"
+                      onClick={() => setShowForm(false)}
+                    >
+                      <i className="fa fa-times"></i>
+                      &nbsp; Close
+                    </button>
 
                   </div>
 
                 </div>
 
+                <div className="card-body">
 
-                {/* Table */}
-                <div className="table-responsive">
+                  <form onSubmit={handleSubmit}>
 
-                  <table className="table table-hover">
+                    <div className="row">
 
-                    <thead>
+                      {/* Supplier Name */}
+                      <div className="col-md-6 mb-3">
 
-                      <tr>
-                        <th>#</th>
-                        <th>Supplier Name</th>
-                        <th>Contact Person</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Action</th>
-                      </tr>
+                        <label className="form-label">
+                          Supplier Name
+                        </label>
 
-                    </thead>
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          placeholder="Enter supplier name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                        />
+
+                      </div>
 
 
-                    <tbody>
+                      {/* Contact Person */}
+                      <div className="col-md-6 mb-3">
 
-                      {suppliers.map((supplier, index) => (
+                        <label className="form-label">
+                          Contact Person
+                        </label>
 
-                        <tr key={supplier.id}>
+                        <input
+                          type="text"
+                          name="contact_person"
+                          className="form-control"
+                          placeholder="Enter contact person"
+                          value={formData.contact_person}
+                          onChange={handleChange}
+                        />
 
-                          <td>
-                            {index + 1}
-                          </td>
+                      </div>
 
-                          <td>
-                            <strong>
-                              {supplier.name}
-                            </strong>
-                          </td>
 
-                          <td>
-                            {supplier.contact_person}
-                          </td>
+                      {/* Phone */}
+                      <div className="col-md-6 mb-3">
 
-                          <td>
-                            {supplier.phone}
-                          </td>
+                        <label className="form-label">
+                          Phone
+                        </label>
 
-                          <td>
-                            {supplier.email}
-                          </td>
+                        <input
+                          type="text"
+                          name="phone"
+                          className="form-control"
+                          placeholder="Enter phone number"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                        />
 
-                          <td>
-                            {supplier.address}
-                          </td>
+                      </div>
 
-                          <td>
 
-                            <div className="form-button-action">
+                      {/* Email */}
+                      <div className="col-md-6 mb-3">
 
-                              <button
-                                type="button"
-                                className="btn btn-link btn-primary"
-                                title="Edit Supplier"
-                              >
-                                <i className="fa fa-edit"></i>
-                              </button>
+                        <label className="form-label">
+                          Email
+                        </label>
 
-                              <button
-                                type="button"
-                                className="btn btn-link btn-danger"
-                                title="Delete Supplier"
-                              >
-                                <i className="fa fa-trash"></i>
-                              </button>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          placeholder="Enter email"
+                          value={formData.email}
+                          onChange={handleChange}
+                        />
 
-                            </div>
+                      </div>
 
-                          </td>
 
-                        </tr>
+                      {/* Address */}
+                      <div className="col-md-12 mb-3">
 
-                      ))}
+                        <label className="form-label">
+                          Address
+                        </label>
 
-                    </tbody>
+                        <textarea
+                          name="address"
+                          className="form-control"
+                          rows="3"
+                          placeholder="Enter supplier address"
+                          value={formData.address}
+                          onChange={handleChange}
+                        ></textarea>
 
-                  </table>
+                      </div>
+
+
+                      {/* Buttons */}
+                      <div className="col-md-12">
+
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                        >
+                          <i className="fa fa-save"></i>
+                          &nbsp; Save Supplier
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-secondary ms-2"
+                          onClick={() => setShowForm(false)}
+                        >
+                          Cancel
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  </form>
 
                 </div>
 
@@ -205,9 +302,7 @@ function Suppliers() {
             </div>
 
           </div>
-
-        </div>
-
+        )}
       </div>
     </div>
   );

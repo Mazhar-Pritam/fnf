@@ -7,12 +7,18 @@ $data = json_decode(
     true
 );
 
-$res = [];
-
 if (
-    !empty($data['name']) &&
-    !empty($data['phone'])
+    empty($data['name']) ||
+    empty($data['phone'])
 ) {
+
+    $res = [
+        'status' => false,
+        'data' => [],
+        'message' => 'Supplier name and phone are required'
+    ];
+
+} else {
 
     $supplier_data = [
         'name' => $data['name'],
@@ -26,14 +32,6 @@ if (
         'suppliers',
         $supplier_data
     );
-
-} else {
-
-    $res = [
-        'status' => false,
-        'data' => [],
-        'message' => 'Supplier name and phone are required'
-    ];
 }
 
 echo json_encode($res);

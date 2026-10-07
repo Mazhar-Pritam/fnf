@@ -53,19 +53,30 @@ class crud_class
         $sql = "SELECT $columns FROM $table";
         //$where=[id=>1, name=>'John'];
         if (!empty($where)) {
-            $where_clauses = [];
-            foreach ($where as $column => $value) {
-                $where_clauses[] = "$table" . "." . "$column = '" . $this->conn->real_escape_string($value) . "'";
-                //$where_clauses[] = "id='1'"
-                //$where_clauses[] = "name='kamal'"
-            }
 
-            $sql .= " WHERE " . implode(" $where_condition ", $where_clauses);
-            $sql .= " AND deleted_at IS NULL";
-            // "SELECT * FROM users WHERE id='1' AND name='kamal'" and deleted_at IS NULL
-        } else {
-            $sql .= " WHERE deleted_at IS NULL";
-        }
+    $where_clauses = [];
+
+    foreach ($where as $column => $value) {
+
+        $where_clauses[] =
+            "$table.$column = '" .
+            $this->conn->real_escape_string($value) .
+            "'";
+    }
+
+    $sql .= " WHERE " .
+        implode(" $where_condition ", $where_clauses);
+
+    if (in_array($table, $this->soft_delete_tables)) {
+        $sql .= " AND $table.deleted_at IS NULL";
+    }
+
+} else {
+
+    if (in_array($table, $this->soft_delete_tables)) {
+        $sql .= " WHERE $table.deleted_at IS NULL";
+    }
+}
 
 
         if (!empty($order_by)) {
