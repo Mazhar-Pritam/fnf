@@ -7,7 +7,7 @@ function SuppliersCreate() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     
-    fetch('http://localhost/fnf_api/suppliers/create.php', {
+    fetch('http://localhost/fnf_api/suppliers/insert.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
