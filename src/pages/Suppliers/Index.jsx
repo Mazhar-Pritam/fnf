@@ -8,7 +8,7 @@ function Suppliers() {
   // Component load হলে API থেকে supplier আনবে
   useEffect(() => {
 
-    fetch("http://localhost/your-project/api/suppliers/index.php")
+    fetch("http://localhost/your-project/api/suppliers/select.php")
       .then(response => response.json())
       .then(result => {
 

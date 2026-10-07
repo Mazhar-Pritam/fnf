@@ -17,6 +17,7 @@ class crud_class
         $this->database = $database;
         $this->connect();
     }
+    
 
     private function connect()
     {
@@ -25,6 +26,13 @@ class crud_class
             die("Connection failed: " . $this->conn->connect_error);
         }
     }
+    private $soft_delete_tables = [
+    'users',
+    'customers',
+    'suppliers',
+    'part_categories',
+    'parts'
+];
 
     public function common_select(
         $table,
