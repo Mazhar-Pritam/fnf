@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Layout from "../Layout.jsx";
 function Categories() {
 
   const [categories, setCategories] = React.useState([]);
@@ -32,6 +33,7 @@ function handleDelete(id) {
 }
 
   return (
+    <Layout>
     <div className="container">
       <div className="page-inner">
 
@@ -157,6 +159,7 @@ function handleDelete(id) {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 

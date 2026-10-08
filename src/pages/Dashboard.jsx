@@ -1,5 +1,8 @@
-function Body() {
+import Layout from "./Layout.jsx";
+
+function Dashboard() {
   return (
+    <Layout>
          <div className="container">
           <div className="page-inner">
             <div
@@ -614,7 +617,8 @@ function Body() {
             </div>
           </div>
         </div>
+      </Layout>
     );
 }
 
-export default Body;
+export default Dashboard;
