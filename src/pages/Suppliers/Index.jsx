@@ -1,47 +1,28 @@
+import { useEffect, useState } from "react";
+
 function Suppliers() {
 
-  const suppliers = [
-    {
-      id: 1,
-      name: "Auto Parts BD",
-      contactPerson: "Rahim Ahmed",
-      phone: "01711-123456",
-      email: "autoparts@gmail.com",
-      address: "Dhaka, Bangladesh"
-    },
-    {
-      id: 2,
-      name: "Car Care Suppliers",
-      contactPerson: "Karim Hasan",
-      phone: "01822-234567",
-      email: "carcare@gmail.com",
-      address: "Chattogram, Bangladesh"
-    },
-    {
-      id: 3,
-      name: "Bangladesh Auto Supply",
-      contactPerson: "Sakib Khan",
-      phone: "01933-345678",
-      email: "basupply@gmail.com",
-      address: "Narayanganj, Bangladesh"
-    },
-    {
-      id: 4,
-      name: "Motor Parts House",
-      contactPerson: "Imran Hossain",
-      phone: "01644-456789",
-      email: "motorparts@gmail.com",
-      address: "Gazipur, Bangladesh"
-    },
-    {
-      id: 5,
-      name: "Premium Auto Parts",
-      contactPerson: "Tanvir Ahmed",
-      phone: "01555-567890",
-      email: "premiumauto@gmail.com",
-      address: "Sylhet, Bangladesh"
-    }
-  ];
+  // Supplier data রাখার জন্য
+  const [suppliers, setSuppliers] = useState([]);
+
+  // Component load হলে API থেকে supplier আনবে
+  useEffect(() => {
+
+    fetch('http://localhost/fnf_api/suppliers/index.php')
+      .then(response => response.json())
+      .then(result => {
+
+        if (result.status) {
+          setSuppliers(result.data);
+        }
+
+      })
+      .catch(error => {
+        console.error("Error loading suppliers:", error);
+      });
+
+  }, []);
+
 
   return (
     <div className="container">
@@ -49,7 +30,10 @@ function Suppliers() {
 
         {/* Page Header */}
         <div className="page-header">
-          <h3 className="fw-bold mb-3">Suppliers</h3>
+
+          <h3 className="fw-bold mb-3">
+            Suppliers
+          </h3>
 
           <ul className="breadcrumbs mb-3">
 
@@ -64,14 +48,19 @@ function Suppliers() {
             </li>
 
             <li className="nav-item">
-              <a href="#">Suppliers</a>
+              <a href="#">
+                Suppliers
+              </a>
             </li>
 
           </ul>
+
         </div>
+
 
         {/* Supplier Table */}
         <div className="row">
+
           <div className="col-md-12">
 
             <div className="card card-round">
@@ -85,7 +74,10 @@ function Suppliers() {
                     Supplier List
                   </h4>
 
-                  <button className="btn btn-primary btn-round ms-auto">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-round ms-auto"
+                  >
                     <i className="fa fa-plus"></i>
                     &nbsp; Add Supplier
                   </button>
@@ -93,6 +85,7 @@ function Suppliers() {
                 </div>
 
               </div>
+
 
               {/* Card Body */}
               <div className="card-body">
@@ -120,12 +113,14 @@ function Suppliers() {
 
                 </div>
 
+
                 {/* Table */}
                 <div className="table-responsive">
 
                   <table className="table table-hover">
 
                     <thead>
+
                       <tr>
                         <th>#</th>
                         <th>Supplier Name</th>
@@ -135,7 +130,9 @@ function Suppliers() {
                         <th>Address</th>
                         <th>Action</th>
                       </tr>
+
                     </thead>
+
 
                     <tbody>
 
@@ -143,14 +140,18 @@ function Suppliers() {
 
                         <tr key={supplier.id}>
 
-                          <td>{index + 1}</td>
-
                           <td>
-                            <strong>{supplier.name}</strong>
+                            {index + 1}
                           </td>
 
                           <td>
-                            {supplier.contactPerson}
+                            <strong>
+                              {supplier.name}
+                            </strong>
+                          </td>
+
+                          <td>
+                            {supplier.contact_person}
                           </td>
 
                           <td>
@@ -169,7 +170,6 @@ function Suppliers() {
 
                             <div className="form-button-action">
 
-                              {/* Edit */}
                               <button
                                 type="button"
                                 className="btn btn-link btn-primary"
@@ -178,7 +178,6 @@ function Suppliers() {
                                 <i className="fa fa-edit"></i>
                               </button>
 
-                              {/* Delete */}
                               <button
                                 type="button"
                                 className="btn btn-link btn-danger"
@@ -206,6 +205,7 @@ function Suppliers() {
             </div>
 
           </div>
+
         </div>
 
       </div>
