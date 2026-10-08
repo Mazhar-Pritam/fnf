@@ -1,9 +1,5 @@
-import Sidebar from "./components/Sidebar.jsx";
-import Header from "./components/Header.jsx";
-import Body from "./pages/Body.jsx";
-import Form from "./pages/Form.jsx";
-import Footer from "./components/Footer.jsx";
-import Inventory from "./pages/Inventory.jsx";
+
+import Dashboard from "./pages/Dashboard.jsx";
 import Categories from "./pages/Categories/Index.jsx"; 
 import CategoryCreate from "./pages/Categories/Create.jsx"; 
 import Suppliers from "./pages/Suppliers/Index.jsx"; 
@@ -35,8 +31,8 @@ function App() {
                 <Footer />
                 {/* <inventory /> */}
 
-      </div>
-    </div>
+        <Route path="/suppliers" element={<Suppliers />} />
+      </Routes>
     </BrowserRouter>
   );
 }
