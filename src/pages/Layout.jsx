@@ -4,8 +4,6 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
  
 function Layout({children}) {
-  
-
   return (
         <div className="wrapper">
             <Sidebar />
@@ -15,8 +13,6 @@ function Layout({children}) {
                 <Footer />
             </div>
         </div> 
-     
   )
 }
-
 export default Layout

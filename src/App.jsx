@@ -1,19 +1,20 @@
 
 import Dashboard from "./pages/Dashboard.jsx";
-import Form from "./pages/Form.jsx";
-import Inventory from "./pages/Inventory.jsx";
 import Categories from "./pages/Categories/Index.jsx"; 
 import CategoryCreate from "./pages/Categories/Create.jsx"; 
 import CategoryEdit from "./pages/Categories/Edit.jsx"; 
 import { BrowserRouter, Routes, Route } from "react-router";
 import Suppliers from "./pages/Suppliers.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Dashboard/>} />
-        <Route path="/form" element={<Form />} />
-        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/dashboard" element={<Dashboard/>} />
         
         <Route path="categories">
           <Route index element={<Categories />} />
