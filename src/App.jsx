@@ -22,35 +22,19 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-          <Route path= {"/"} element={
-            <Protected  isSignedIn= {isSignedIn} >
-              <Dashboard /> 
-           </Protected>
-           } />
-        <Route path="/dashboard" element={
-          <Protected  isSignedIn= {isSignedIn} >
-              <Dashboard /> 
-           </Protected>
-           }/>
-        <Route path="/logout" element={
-          <Protected  isSignedIn= {isSignedIn} >
-              <Logout /> 
-           </Protected>
-           }/>
-        
-        <Route path="categories">
-          <Route index element={
-          <Protected isSignedIn= {isSignedIn} >
-              <Categories /> 
-           </Protected>
-           }/>
-          <Route path="create" element={<CategoryCreate />} />
-          <Route path="edit/:id" element={<CategoryEdit />} />
+        <Route element={<Protected isSignedIn={isSignedIn} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="logout" element={<Logout />} />
+
+          <Route path="categories">
+            <Route index element={<Categories />} />
+            <Route path="create" element={<CategoryCreate />} />
+            <Route path="edit/:id" element={<CategoryEdit />} />
+          </Route>
+
+          <Route path="suppliers" element={<Suppliers />} />
         </Route>
-
-        <Route path="/suppliers" element={<Suppliers />} />
-
-
       </Routes>
     </BrowserRouter>
   );
