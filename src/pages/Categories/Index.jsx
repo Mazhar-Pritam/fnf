@@ -1,34 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Layout from "../Layout.jsx";
+import axios from '../../Lib/axios.js';
 function Categories() {
 
   const [categories, setCategories] = React.useState([]);
-
-  function fetchCategories() {
-    fetch('http://localhost/fnf_api/category/index.php')
-      .then(response => response.json())
-      .then(data => setCategories(data.data))
-      .catch(error => console.error('Error fetching categories:', error));
+  const fetchCategories = async (e) => {
+      let res = await axios.get(`category/index.php`)
+      setCategories(res.data.data);
   }
-
+  
   React.useEffect(() => {
     fetchCategories();
   }
-, [categories]);
+, []);
 
-function handleDelete(id) {
+  async function handleDelete(id) {
   if (window.confirm("Are you sure you want to delete this category?")) {
-    fetch(`http://localhost/fnf_api/category/delete.php?id=${id}`, {
-      method: 'DELETE'
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status == 'true') {
-          fetchCategories();
-        }
-      })
-      .catch(error => console.error('Error deleting category:', error));
+    let res = await axios.delete(`category/delete.php?id=${id}`)
+    if(res.data.status){
+      fetchCategories();
+    }else{
+      alert(res.data.message);
+    }
   }
 }
 
@@ -110,13 +104,14 @@ function handleDelete(id) {
                         <th>#</th>
                         <th>Category Name</th>
                         <th>Description</th>
+                        <th>Image</th>
                         <th>Action</th>
                       </tr>
                     </thead>
 
                     <tbody>
 
-                      {categories.map((category, index) => (
+                      {categories && categories.map((category, index) => (
 
                         <tr key={category.id}>
 
@@ -127,6 +122,12 @@ function handleDelete(id) {
                           </td>
 
                           <td>{category.description}</td>
+
+                          <td>
+                            {category.image && (
+                              <img src={`${import.meta.env.VITE_API_URL}${category.image}`} alt={category.name} className="img-fluid" width="100" />
+                            )}
+                          </td>
 
                           <td>
 

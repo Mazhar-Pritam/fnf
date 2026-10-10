@@ -2,28 +2,18 @@ import React from 'react';
 import { Link } from 'react-router';
 import Layout from "../Layout.jsx";
 function CategoryCreate() {
-
-  function handleSubmit(e){
+  
+  async function handleSubmit(e){
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
     
-    fetch('http://localhost/fnf_api/category/create.php', {
+    let res = await fetch('http://localhost/fnf_api/category/create.php', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Optionally, you can redirect the user to another page or show a success message here
-        window.location.href = '/categories';
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      body: formData,
+    });
+    if(res.status === 200) {
+      window.location.href = '/categories';
+    }
   }
 
 
@@ -73,6 +63,10 @@ function CategoryCreate() {
                   <div className="form-group">
                     <label htmlFor="categoryDescription">Category Description</label>
                     <input type="text" name="description" className="form-control" id="categoryDescription" placeholder="Enter category description" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="image">Image</label>
+                    <input type="file" name="image" className="form-control" id="image"/>
                   </div>
                   <button type="submit" className="btn btn-primary mt-3">Add Category</button>
                 </form>
