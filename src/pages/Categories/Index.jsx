@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import Layout from "../Layout.jsx";
 import axios from '../../Lib/axios.js';
 function Categories() {
-
+//testing
   const [categories, setCategories] = React.useState([]);
   const fetchCategories = async (e) => {
       let res = await axios.get(`category/index.php`)
