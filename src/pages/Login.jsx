@@ -18,8 +18,8 @@ function Login() {
         password: form.get("password")
       })
       .then((response) => {
-        sessionStorage.setItem("access_token", response.data.jwt);
-        sessionStorage.setItem("userdata", response.data.data);
+        localStorage.setItem("access_token", response.data.jwt);
+        localStorage.setItem("userdata", response.data.data);
         window.location.href='./dashboard';
       })
       .catch(() => {
