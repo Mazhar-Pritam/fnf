@@ -12,9 +12,9 @@ import Logout from './Auth/Logout.jsx';
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
-    //return localStorage.getItem("access_token") || false;
+    return localStorage.getItem("access_token") || false;
     /* if you want, user will be logged when they close the browser*/
-    return sessionStorage.getItem("access_token") || false;
+    //return sessionStorage.getItem("access_token") || false;
   });
   return (
     <BrowserRouter>
