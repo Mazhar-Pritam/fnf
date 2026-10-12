@@ -1,16 +1,30 @@
 import React from 'react';
-import axios from 'axios';
 import { Link } from 'react-router';
-import Layout from "../Layout.jsx";
+import Layout from '../Layout.jsx';
+import axios from '../../Lib/axios.js';
 
-function CategoryCreate() {
+function SupplierCreate() {
+  const [error, setError] = React.useState('');
+  const [saving, setSaving] = React.useState(false);
+
   async function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    setError('');
+    setSaving(true);
 
-    let res = await axios.post('/category/create.php', formData);
-    if (res.status === 200) {
-      window.location.href = '/categories';
+    try {
+      const formData = new FormData(e.target);
+      const res = await axios.post('/suppliers/create.php', formData);
+
+      if (res.data.status) {
+        window.location.href = '/suppliers';
+      } else {
+        setError(res.data.message || 'Unable to create supplier.');
+      }
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || requestError.message || 'Unable to create supplier.');
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -19,28 +33,13 @@ function CategoryCreate() {
       <div className="container">
         <div className="page-inner">
           <div className="page-header">
-            <h3 className="fw-bold mb-3">Add New Category</h3>
-
+            <h3 className="fw-bold mb-3">Add New Supplier</h3>
             <ul className="breadcrumbs mb-3">
-              <li className="nav-home">
-                <a href="#">
-                  <i className="icon-home"></i>
-                </a>
-              </li>
-
-              <li className="separator">
-                <i className="icon-arrow-right"></i>
-              </li>
-
-              <li className="nav-item">
-                <Link to="/categories">Categories</Link>
-              </li>
-              <li className="separator">
-                <i className="icon-arrow-right"></i>
-              </li>
-              <li className="nav-item">
-                <a href="#">Add New</a>
-              </li>
+              <li className="nav-home"><Link to="/"><i className="icon-home"></i></Link></li>
+              <li className="separator"><i className="icon-arrow-right"></i></li>
+              <li className="nav-item"><Link to="/suppliers">Suppliers</Link></li>
+              <li className="separator"><i className="icon-arrow-right"></i></li>
+              <li className="nav-item"><span>Add New</span></li>
             </ul>
           </div>
 
@@ -50,37 +49,30 @@ function CategoryCreate() {
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                      <label htmlFor="categoryName">Category Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        className="form-control"
-                        id="categoryName"
-                        placeholder="Enter category name"
-                      />
+                      <label htmlFor="supplierName">Supplier Name</label>
+                      <input type="text" name="name" className="form-control" id="supplierName" required />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="categoryDescription">Category Description</label>
-                      <input
-                        type="text"
-                        name="description"
-                        className="form-control"
-                        id="categoryDescription"
-                        placeholder="Enter category description"
-                      />
+                      <label htmlFor="contactPerson">Contact Person</label>
+                      <input type="text" name="contact_person" className="form-control" id="contactPerson" />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="image">Image</label>
-                      <input
-                        type="file"
-                        name="image"
-                        className="form-control"
-                        id="image"
-                      />
+                      <label htmlFor="supplierPhone">Phone</label>
+                      <input type="tel" name="phone" className="form-control" id="supplierPhone" required />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-3">
-                      Add Category
+                    <div className="form-group">
+                      <label htmlFor="supplierEmail">Email</label>
+                      <input type="email" name="email" className="form-control" id="supplierEmail" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="supplierAddress">Address</label>
+                      <textarea name="address" className="form-control" id="supplierAddress" rows="3" />
+                    </div>
+                    {error && <div className="alert alert-danger mt-3" role="alert">{error}</div>}
+                    <button type="submit" className="btn btn-primary mt-3" disabled={saving}>
+                      {saving ? 'Saving...' : 'Add Supplier'}
                     </button>
+                    <Link to="/suppliers" className="btn btn-light mt-3 ms-2">Cancel</Link>
                   </form>
                 </div>
               </div>
@@ -92,4 +84,4 @@ function CategoryCreate() {
   );
 }
 
-export default CategoryCreate;
+export default SupplierCreate;

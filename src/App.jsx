@@ -5,6 +5,8 @@ import CategoryCreate from "./pages/Categories/Create.jsx";
 import CategoryEdit from "./pages/Categories/Edit.jsx"; 
 import { BrowserRouter, Routes, Route } from "react-router";
 import Suppliers from "./pages/Suppliers.jsx";
+import SupplierCreate from "./pages/Suppliers/Create.jsx";
+import SupplierEdit from "./pages/Suppliers/Edit.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Protected from './Auth/Protected.jsx';
@@ -33,7 +35,11 @@ function App() {
             <Route path="edit/:id" element={<CategoryEdit />} />
           </Route>
 
-          <Route path="suppliers" element={<Suppliers />} />
+          <Route path="suppliers">
+            <Route index element={<Suppliers />} />
+            <Route path="create" element={<SupplierCreate />} />
+            <Route path="edit/:id" element={<SupplierEdit />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
