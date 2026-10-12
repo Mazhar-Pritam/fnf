@@ -7,10 +7,7 @@ function CategoryCreate() {
     e.preventDefault();
     const formData = new FormData(e.target);
     
-    let res = await fetch('http://localhost/fnf_api/category/create.php', {
-      method: 'POST',
-      body: formData,
-    });
+    let res = await axios.post('/category/create.php', formData);
     if(res.status === 200) {
       window.location.href = '/categories';
     }

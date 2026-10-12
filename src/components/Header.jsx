@@ -92,7 +92,7 @@ function Header() {
                     <span className="profile-username">
                       <span className="op-7">Hi,</span>
                       <span className="fw-bold">
-                        {JSON.parse(sessionStorage.getItem("userdata")).name}
+                        {JSON.parse(localStorage.getItem("userdata")).name}
                       </span>
                     </span>
                   </a>
