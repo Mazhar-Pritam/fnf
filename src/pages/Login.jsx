@@ -7,25 +7,33 @@ function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [message, setMessage] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const form = new FormData(event.target);
 
-    axios
-      .post(`${import.meta.env.VITE_API_URL}login.php`, {
+    setMessage("");
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}login.php`, {
         email: form.get("email"),
         password: form.get("password")
-      })
-      .then((response) => {
-        localStorage.setItem("access_token", response.data.jwt);
-        localStorage.setItem("userdata", response.data.data);
-        window.location.href='./dashboard';
-      })
-      .catch(() => {
-        setMessage("An error occurred while creating your account. Please try again.");
       });
 
+      if (response.data?.status !== true || !response.data?.jwt) {
+        setMessage(response.data?.message || "Invalid email or password. Please try again.");
+        return;
+      }
+
+      localStorage.setItem("access_token", response.data.jwt);
+      localStorage.setItem("userdata", response.data.data);
+      window.location.href = "/dashboard";
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message ||
+          "Unable to connect to the sign-in service. Please try again."
+      );
+    }
   }
 
   return (
