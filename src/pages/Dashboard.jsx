@@ -108,7 +108,7 @@ function Dashboard() {
                 <div className="card card-round">
                   <div className="card-header">
                     <div className="card-head-row">
-                      <div className="card-title">User Statistics</div>
+                      <div className="card-title">User Stats</div>
                       <div className="card-tools">
                         <a
                           href="#"
