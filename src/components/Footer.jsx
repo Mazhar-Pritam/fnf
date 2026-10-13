@@ -1,24 +1,24 @@
 function Footer() {
   return (
-      <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="http://www.themekita.com">
+      <footer className="footer">
+          <div className="container-fluid d-flex justify-content-between">
+            <nav className="pull-left">
+              <ul className="nav">
+                <li className="nav-item">
+                  <a className="nav-link" href="http://www.themekita.com">
                     ThemeKita
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
+                <li className="nav-item">
+                  <a className="nav-link" href="#"> Help </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
+                <li className="nav-item">
+                  <a className="nav-link" href="#"> Licenses </a>
                 </li>
               </ul>
             </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
+            <div className="copyright">
+              2024, made with <i className="fa fa-heart heart text-danger"></i> by
               <a href="http://www.themekita.com">ThemeKita</a>
             </div>
             <div>
