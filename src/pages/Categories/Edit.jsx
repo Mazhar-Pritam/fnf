@@ -11,14 +11,14 @@ function CategoryEdit() {
 
   
     async function fetchCategories() {
-      let res = await axios.get('/category/read_one.php?id=' + id);
-      setCategories(res.data[0]);
+      let res = await axios.get('/category/single.php?id=' + id);
+      setCategories(res.data.data?.[0]);
      }
   
     React.useEffect(() => {
       fetchCategories();
     }
-  , []);
+  , [id]);
 
  async function handleSubmit(e){
     e.preventDefault();
