@@ -1,18 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Layout from "../Layout.jsx";
+import axios from '../../Lib/axios.js';
+
 function CategoryCreate() {
-  
-  async function handleSubmit(e){
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
-    let res = await fetch('http://localhost/fnf_api/category/create.php', {
-      method: 'POST',
-      body: formData,
-    });
-    if(res.status === 200) {
-      window.location.href = '/categories';
+
+    setErrorMessage('');
+
+    try {
+      const res = await axios.post('/category/create.php', formData);
+      if (res.data.status) {
+        window.location.href = '/categories';
+      } else {
+        setErrorMessage(res.data.message || 'Failed to create category.');
+      }
+    } catch (error) {
+      console.error('Category create error:', error);
+      setErrorMessage(
+        error.response?.data?.message || 'Unable to create category. Please try again.'
+      );
     }
   }
 
@@ -56,9 +67,14 @@ function CategoryCreate() {
 
               <div className="card-body">
                 <form onSubmit={handleSubmit}>
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
                   <div className="form-group">
                     <label htmlFor="categoryName">Category Name</label>
-                    <input type="text" name="name" className="form-control" id="categoryName" placeholder="Enter category name" />
+                    <input type="text" name="name" className="form-control" id="categoryName" placeholder="Enter category name" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="categoryDescription">Category Description</label>

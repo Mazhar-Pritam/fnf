@@ -2,47 +2,32 @@ import React from 'react';
 import { Link } from 'react-router';
 import { useParams } from 'react-router';
 import Layout from "../Layout.jsx";
+import axios from '../../Lib/axios.js';
 function CategoryEdit() {
 
   let { id } = useParams();
 
   const [categories, setCategories] = React.useState([]);
+
   
-    function fetchCategories() {
-      fetch('http://localhost/fnf_api/category/single.php?id=' + id)
-        .then(response => response.json())
-        .then(data => setCategories(data.data[0]))
-        .catch(error => console.error('Error fetching categories:', error));
-    }
+    async function fetchCategories() {
+      let res = await axios.get('/category/single.php?id=' + id);
+      setCategories(res.data.data?.[0]);
+     }
   
     React.useEffect(() => {
       fetchCategories();
     }
-  , []);
+  , [id]);
 
- function handleSubmit(e){
+ async function handleSubmit(e){
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-   
-    fetch('http://localhost/fnf_api/category/update.php?id=' + categories.id, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Optionally, you can redirect the user to another page or show a success message here
-        window.location.href = '/categories';
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    let res = await axios.post('/category/update.php?id=' +id, formData);
+    if(res.status === 200) {
+      window.location.href = '/categories';
+    }
   }
-
 
   return (
     <Layout>
@@ -51,7 +36,7 @@ function CategoryEdit() {
 
         {/* Page Header */}
         <div className="page-header">
-          <h3 className="fw-bold mb-3">Add New Category</h3>
+          <h3 className="fw-bold mb-3">Edit Category</h3>
 
           <ul className="breadcrumbs mb-3">
             <li className="nav-home">
