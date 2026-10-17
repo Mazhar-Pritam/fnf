@@ -1,30 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router';
+
+import React from "react";
+import { Link } from "react-router";
 import Layout from "../Layout.jsx";
-import axios from '../../Lib/axios.js';
+import axios from "../../Lib/axios.js";
 
 function SupplierCreate() {
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
 
-    setErrorMessage('');
+    const formData = new FormData(e.target);
+    setErrorMessage("");
 
     try {
-      const res = await axios.post('/suppliers/create.php', formData);
+      const res = await axios.post(
+        "/supplier/create.php",
+        formData
+      );
 
       if (res.data.status) {
-        window.location.href = '/suppliers';
+        window.location.href = "/suppliers";
       } else {
-        setErrorMessage(res.data.message || 'Failed to create supplier.');
+        setErrorMessage(
+          res.data.message || "Failed to create supplier."
+        );
       }
     } catch (error) {
-      console.error('Supplier create error:', error);
+      console.error("Supplier create error:", error);
+
       setErrorMessage(
         error.response?.data?.message ||
-        'Unable to create supplier. Please try again.'
+        "Unable to create supplier. Please try again."
       );
     }
   }
@@ -33,13 +40,27 @@ function SupplierCreate() {
     <Layout>
       <div className="container">
         <div className="page-inner">
+
+          {/* Page Header */}
           <div className="page-header">
-            <h3 className="fw-bold mb-3">Add New Supplier</h3>
+            <h3 className="fw-bold mb-3">
+              Add New Supplier
+            </h3>
 
             <ul className="breadcrumbs mb-3">
               <li className="nav-home">
-                <Link to="/">
+                <a href="#">
                   <i className="icon-home"></i>
+                </a>
+              </li>
+
+              <li className="separator">
+                <i className="icon-arrow-right"></i>
+              </li>
+
+              <li className="nav-item">
+                <Link to="/suppliers">
+                  Suppliers
                 </Link>
               </li>
 
@@ -48,97 +69,129 @@ function SupplierCreate() {
               </li>
 
               <li className="nav-item">
-                <Link to="/suppliers">Suppliers</Link>
-              </li>
-
-              <li className="separator">
-                <i className="icon-arrow-right"></i>
-              </li>
-
-              <li className="nav-item">
-                <span>Add New</span>
+                <a href="#">
+                  Add New
+                </a>
               </li>
             </ul>
           </div>
 
+          {/* Supplier Form Card */}
           <div className="row">
             <div className="col-md-12">
               <div className="card card-round">
+
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
+
+                    {/* Error Message */}
                     {errorMessage && (
-                      <div className="alert alert-danger" role="alert">
+                      <div
+                        className="alert alert-danger"
+                        role="alert"
+                      >
                         {errorMessage}
                       </div>
                     )}
 
+                    {/* Supplier Name */}
                     <div className="form-group">
-                      <label htmlFor="name">Supplier Name</label>
+                      <label htmlFor="supplierName">
+                        Supplier Name
+                      </label>
+
                       <input
                         type="text"
                         name="name"
                         className="form-control"
-                        id="name"
+                        id="supplierName"
                         placeholder="Enter supplier name"
                         required
                       />
                     </div>
 
+                    {/* Contact Person */}
                     <div className="form-group">
-                      <label htmlFor="contact_person">Contact Person</label>
+                      <label htmlFor="supplierContact">
+                        Contact Person
+                      </label>
+
                       <input
                         type="text"
                         name="contact_person"
                         className="form-control"
-                        id="contact_person"
+                        id="supplierContact"
                         placeholder="Enter contact person"
                       />
                     </div>
 
+                    {/* Phone */}
                     <div className="form-group">
-                      <label htmlFor="phone">Phone</label>
+                      <label htmlFor="supplierPhone">
+                        Phone
+                      </label>
+
                       <input
                         type="text"
                         name="phone"
                         className="form-control"
-                        id="phone"
+                        id="supplierPhone"
                         placeholder="Enter phone number"
                       />
                     </div>
 
+                    {/* Email */}
                     <div className="form-group">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="supplierEmail">
+                        Email
+                      </label>
+
                       <input
                         type="email"
                         name="email"
                         className="form-control"
-                        id="email"
+                        id="supplierEmail"
                         placeholder="Enter email address"
                       />
                     </div>
 
+                    {/* Address */}
                     <div className="form-group">
-                      <label htmlFor="address">Address</label>
-                      <textarea
+                      <label htmlFor="supplierAddress">
+                        Address
+                      </label>
+
+                      <input
+                        type="text"
                         name="address"
                         className="form-control"
-                        id="address"
-                        placeholder="Enter supplier address"
-                        rows="3"
+                        id="supplierAddress"
+                        placeholder="Enter address"
                       />
                     </div>
 
+                    {/* Submit Button */}
                     <button
                       type="submit"
                       className="btn btn-primary mt-3"
                     >
                       Add Supplier
                     </button>
+
+                    <Link
+                      to="/suppliers"
+                      className="btn btn-secondary mt-3 ms-2"
+                    >
+                      Cancel
+                    </Link>
+
                   </form>
                 </div>
+
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </Layout>

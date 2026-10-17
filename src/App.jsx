@@ -4,7 +4,7 @@ import Categories from "./pages/Categories/Index.jsx";
 import CategoryCreate from "./pages/Categories/Create.jsx"; 
 import CategoryEdit from "./pages/Categories/Edit.jsx"; 
 import { BrowserRouter, Routes, Route } from "react-router";
-import Suppliers from "./pages/Suppliers.jsx";
+import Suppliers from "./pages/Suppliers/Index.jsx";
 import SupplierCreate from "./pages/Suppliers/Create.jsx";
 import SupplierEdit from "./pages/Suppliers/Edit.jsx";
 import Login from "./pages/Login.jsx";
@@ -14,6 +14,9 @@ import Logout from './Auth/Logout.jsx';
 import Customers from "./pages/Customers/Index.jsx";
 import CustomerCreate from "./pages/Customers/Create.jsx";
 import CustomerEdit from "./pages/Customers/Edit.jsx";
+import Purchases from "./pages/Purchases/Index.jsx";
+import PurchaseCreate from "./pages/Purchases/Create.jsx";
+import PurchaseEdit from "./pages/Purchases/Edit.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -50,6 +53,11 @@ function App() {
             <Route path="edit/:id" element={<CustomerEdit />} />
           </Route>
         </Route>
+                  <Route path="purchases">
+            <Route index element={<Purchases />} />
+            <Route path="create" element={<PurchaseCreate />} />
+            <Route path="edit/:id" element={<PurchaseEdit />} />
+          </Route>
       </Routes>
     </BrowserRouter>
   );

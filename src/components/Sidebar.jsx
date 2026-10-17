@@ -160,6 +160,13 @@ function Sidebar() {
                   <span className="caret"></span>
                 </Link>
               </li>
+                            <li className="nav-item">
+                <Link data-bs-toggle="collapse" to="/purchases">
+                  <i className="fas fa-shopping-cart"></i>
+                  <p>Purchases</p>
+                  <span className="caret"></span>
+                </Link>
+              </li>
               <li className="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                   <i className="fas fa-table"></i>
