@@ -161,6 +161,13 @@ function Sidebar() {
                 </Link>
               </li>
                             <li className="nav-item">
+                <Link data-bs-toggle="collapse" to="/parts">
+                  <i className="fas fa-cogs"></i>
+                  <p>Spare Parts</p>
+                  <span className="caret"></span>
+                </Link>
+              </li>
+                            <li className="nav-item">
                 <Link data-bs-toggle="collapse" to="/purchases">
                   <i className="fas fa-shopping-cart"></i>
                   <p>Purchases</p>
