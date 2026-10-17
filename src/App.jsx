@@ -11,6 +11,9 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Protected from './Auth/Protected.jsx';
 import Logout from './Auth/Logout.jsx';
+import Customers from "./pages/Customers/Index.jsx";
+import CustomerCreate from "./pages/Customers/Create.jsx";
+import CustomerEdit from "./pages/Customers/Edit.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -39,6 +42,12 @@ function App() {
             <Route index element={<Suppliers />} />
             <Route path="create" element={<SupplierCreate />} />
             <Route path="edit/:id" element={<SupplierEdit />} />
+          </Route>
+
+          <Route path="customers">
+            <Route index element={<Customers />} />
+            <Route path="create" element={<CustomerCreate />} />
+            <Route path="edit/:id" element={<CustomerEdit />} />
           </Route>
         </Route>
       </Routes>
