@@ -128,11 +128,7 @@ function PartEdit() {
                     <label htmlFor="partSalePrice">Sale Price</label>
                     <input type="number" step="0.01" onChange={(e) => setPart({...part, sale_price: e.target.value})} value={part.sale_price || ''} name="sale_price" className="form-control" id="partSalePrice" placeholder="Enter sale price" />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="partStock">Stock Quantity</label>
-                    <input type="number" onChange={(e) => setPart({...part, stock_quantity: e.target.value})} value={part.stock_quantity || ''} name="stock_quantity" className="form-control" id="partStock" placeholder="Enter stock quantity" />
-                  </div>
-                  <div className="form-group">
+                    <div className="form-group">
                     <label htmlFor="partDescription">Description</label>
                     <input type="text" onChange={(e) => setPart({...part, description: e.target.value})} value={part.description || ''} name="description" className="form-control" id="partDescription" placeholder="Enter description" />
                   </div>
