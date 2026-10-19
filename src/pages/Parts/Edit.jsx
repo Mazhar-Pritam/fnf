@@ -121,12 +121,24 @@ function PartEdit() {
                     </select>
                   </div>
                   <div className="form-group">
+                    <label htmlFor="partBrand">Brand</label>
+                    <input type="text" onChange={(e) => setPart({...part, brand: e.target.value})} value={part.brand || ''} name="brand" className="form-control" id="partBrand" placeholder="Enter brand" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="partVehicleModel">Vehicle Model</label>
+                    <input type="text" onChange={(e) => setPart({...part, vehicle_model: e.target.value})} value={part.vehicle_model || ''} name="vehicle_model" className="form-control" id="partVehicleModel" placeholder="Enter vehicle model" />
+                  </div>
+                  <div className="form-group">
                     <label htmlFor="partPurchasePrice">Purchase Price</label>
                     <input type="number" step="0.01" onChange={(e) => setPart({...part, purchase_price: e.target.value})} value={part.purchase_price || ''} name="purchase_price" className="form-control" id="partPurchasePrice" placeholder="Enter purchase price" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="partSalePrice">Sale Price</label>
                     <input type="number" step="0.01" onChange={(e) => setPart({...part, sale_price: e.target.value})} value={part.sale_price || ''} name="sale_price" className="form-control" id="partSalePrice" placeholder="Enter sale price" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="partMinimumStock">Minimum Stock</label>
+                    <input type="number" min="0" step="1" onChange={(e) => setPart({...part, minimum_stock: e.target.value})} value={part.minimum_stock ?? 0} name="minimum_stock" className="form-control" id="partMinimumStock" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="partDescription">Description</label>
