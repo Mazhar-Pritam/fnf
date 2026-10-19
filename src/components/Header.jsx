@@ -1,5 +1,17 @@
+import { useState } from "react";
+import { Link } from "react-router";
 function Header() {
-  return (
+  // Logged-in user, read once from localStorage. If it is missing or broken,
+  // the header still shows instead of crashing the page.
+  const [user] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("userdata")) || {};
+    } catch (error) {
+      return {};
+    }
+  });
+  const [open, setOpen] = useState(false);
+return (
     <div className="main-header">
           <div className="main-header-logo">
             <div className="logo-header" data-background-color="dark">
@@ -71,16 +83,15 @@ function Header() {
                     </form>
                   </ul>
                 </li>
-               
-                
-               
-
-                <li className="nav-item topbar-user dropdown hidden-caret">
+              <li className="nav-item topbar-user dropdown hidden-caret">
                   <a
                     className="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
                     href="#"
-                    aria-expanded="false"
+                    aria-expanded={open}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpen(!open);
+                    }}
                   >
                     <div className="avatar-sm">
                       <img
@@ -92,11 +103,14 @@ function Header() {
                     <span className="profile-username">
                       <span className="op-7">Hi,</span>
                       <span className="fw-bold">
-                        {JSON.parse(localStorage.getItem("userdata")).name}
+                        {user.name}
                       </span>
                     </span>
                   </a>
-                  <ul className="dropdown-menu dropdown-user animated fadeIn">
+                  <ul
+                    className={"dropdown-menu dropdown-user animated fadeIn" + (open ? " show" : "")}
+                    style={{ right: 0, left: "auto" }}
+                  >
                     <div className="dropdown-user-scroll scrollbar-outer">
                       <li>
                         <div className="user-box">
@@ -108,8 +122,8 @@ function Header() {
                             />
                           </div>
                           <div className="u-text">
-                            <h4>Hizrian</h4>
-                            <p className="text-muted">hello@example.com</p>
+                            <h4>Hello Admin!</h4>
+                            <p className="text-muted">carparts@gmail.com</p>
                             <a
                               href="profile.html"
                               className="btn btn-xs btn-secondary btn-sm"
@@ -126,7 +140,14 @@ function Header() {
                         <div className="dropdown-divider"></div>
                         <a className="dropdown-item" href="#">Account Setting</a>
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#">Logout</a>
+                        <Link
+                          className="dropdown-item text-danger"
+                          to="/logout"
+                          onClick={() => setOpen(false)}
+                        >
+                          <i className="fa fa-sign-out-alt"></i>
+                          &nbsp; Logout
+                        </Link>
                       </li>
                     </div>
                   </ul>
