@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "./Layout.jsx";
 import axios from '../Lib/axios.js';
-import { getStockStatus } from '../Lib/stockStatus.js';
 
 function Dashboard() {
   const [inventorySummary, setInventorySummary] = React.useState({
@@ -26,12 +25,11 @@ function Dashboard() {
             (sum, item) => sum + (Number(item.stock_quantity) || 0) * (Number(item.purchase_price) || 0),
             0
           ),
-          lowStockItems: items.filter(
-            (item) => getStockStatus(item.stock_quantity, item.minimum_stock).label === 'Low Stock'
-          ).length,
-          outOfStockItems: items.filter(
-            (item) => getStockStatus(item.stock_quantity, item.minimum_stock).label === 'Out Of Stock'
-          ).length,
+          lowStockItems: items.filter((item) => {
+            const stock = Number(item.stock_quantity) || 0;
+            return stock > 0 && stock <= (Number(item.minimum_stock) || 0);
+          }).length,
+          outOfStockItems: items.filter((item) => Number(item.stock_quantity) <= 0).length,
         });
       } catch (error) {
         console.error('Dashboard inventory load error:', error);
