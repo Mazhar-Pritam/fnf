@@ -20,6 +20,7 @@ import PurchaseEdit from "./pages/Purchases/Edit.jsx";
 import Parts from "./pages/Parts/Index.jsx";
 import PartCreate from "./pages/Parts/Create.jsx";
 import PartEdit from "./pages/Parts/Edit.jsx";
+import Inventory from "./pages/Inventory/Index.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -56,7 +57,10 @@ function App() {
             <Route path="edit/:id" element={<CustomerEdit />} />
           </Route>
         </Route>
-                  <Route path="parts">
+
+        <Route path="inventory" element={<Inventory />} />
+
+           <Route path="parts">
             <Route index element={<Parts />} />
             <Route path="create" element={<PartCreate />} />
             <Route path="edit/:id" element={<PartEdit />} />

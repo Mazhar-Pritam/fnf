@@ -12,6 +12,7 @@ function PurchaseEdit() {
   const [suppliers, setSuppliers] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
   const [parts, setParts] = React.useState([]);
+  const [originalItems, setOriginalItems] = React.useState([]);
   const [items, setItems] = React.useState([
     { category_id: '', part_id: '', quantity: 1, unit_price: '' }
   ]);
@@ -31,6 +32,7 @@ function PurchaseEdit() {
         setPurchase(data);
         if (data.items && data.items.length > 0) {
           setItems(data.items);
+          setOriginalItems(data.items);
         }
       } else {
         setErrorMessage(purchaseRes.data.message || 'Purchase not found.');
@@ -66,8 +68,8 @@ function PurchaseEdit() {
 
     try {
       const res = await axios.post('/purchase/update.php?id=' + id, JSON.stringify(payload), {
-  headers: { 'Content-Type': 'application/json' },
-});
+        headers: { 'Content-Type': 'application/json' },
+      });
       if (res.data.status) {
         window.location.href = '/purchases';
       } else {
@@ -148,7 +150,7 @@ function PurchaseEdit() {
                     <input type="text" onChange={(e) => setPurchase({...purchase, note: e.target.value})} value={purchase.note || ''} name="note" className="form-control" id="purchaseNote" placeholder="Enter note" />
                   </div>
 
-                  <PurchaseItems items={items} setItems={setItems} categories={categories} parts={parts} />
+                  <PurchaseItems items={items} setItems={setItems} categories={categories} parts={parts} originalItems={originalItems} />
 
                   <button type="submit" className="btn btn-primary mt-3">Update Purchase</button>
                 </form>

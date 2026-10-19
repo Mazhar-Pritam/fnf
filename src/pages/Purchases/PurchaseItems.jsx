@@ -2,7 +2,10 @@ import React from 'react';
 
 // Item rows of a purchase: Category -> Part -> Quantity -> Unit Price.
 // Used by both Create.jsx and Edit.jsx.
-function PurchaseItems({ items, setItems, categories, parts }) {
+// originalItems = the items already saved on this purchase (Edit page only).
+// Their quantity is already counted inside the part's stock, so we subtract it
+// before showing what the stock will be after this purchase.
+function PurchaseItems({ items, setItems, categories, parts, originalItems = [] }) {
 
   function updateItem(index, changes) {
     setItems(items.map((item, i) => (i === index ? { ...item, ...changes } : item)));
@@ -40,8 +43,9 @@ function PurchaseItems({ items, setItems, categories, parts }) {
             <tr>
               <th>Category</th>
               <th>Part</th>
-              <th>Current Stock</th>
+              <th>In Stock Now</th>
               <th>Quantity</th>
+              <th>After Purchase</th>
               <th>Unit Price</th>
               <th>Line Total</th>
               <th></th>
@@ -52,6 +56,13 @@ function PurchaseItems({ items, setItems, categories, parts }) {
               const categoryParts = parts.filter((p) => p.category_id == item.category_id);
               const selectedPart = parts.find((p) => p.id == item.part_id);
               const lineTotal = (Number(item.quantity) || 0) * (Number(item.unit_price) || 0);
+
+              const oldQuantity = originalItems
+                .filter((o) => o.part_id == item.part_id)
+                .reduce((sum, o) => sum + (Number(o.quantity) || 0), 0);
+              const stockAfter = selectedPart
+                ? Number(selectedPart.stock_quantity) - oldQuantity + (Number(item.quantity) || 0)
+                : null;
 
               return (
                 <tr key={index}>
@@ -92,6 +103,7 @@ function PurchaseItems({ items, setItems, categories, parts }) {
                       onChange={(e) => updateItem(index, { quantity: e.target.value })}
                     />
                   </td>
+                  <td>{stockAfter === null ? '-' : stockAfter}</td>
                   <td>
                     <input
                       type="number"
@@ -120,7 +132,7 @@ function PurchaseItems({ items, setItems, categories, parts }) {
           </tbody>
           <tfoot>
             <tr>
-              <th colSpan="5" className="text-end">Grand Total</th>
+              <th colSpan="6" className="text-end">Grand Total</th>
               <th>{grandTotal.toFixed(2)}</th>
               <th></th>
             </tr>
