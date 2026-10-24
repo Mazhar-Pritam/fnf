@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router";
 import Layout from "../Layout.jsx";
 import axios from '../../Lib/axios.js';
+import { getStockStatus } from '../../Lib/stockStatus.js';
 
 function Parts() {
   const [parts, setParts] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
+  const [search, setSearch] = React.useState('');
 
   async function fetchParts() {
     let res = await axios.get('part/index.php');
@@ -26,6 +28,16 @@ function Parts() {
     const category = categories && categories.find((c) => c.id == id);
     return category ? category.name : '';
   }
+
+  const keyword = search.trim().toLowerCase();
+  const filteredParts = parts.filter((part) =>
+    !keyword ||
+    (part.name || '').toLowerCase().includes(keyword) ||
+    (part.part_number || '').toLowerCase().includes(keyword) ||
+    categoryName(part.category_id).toLowerCase().includes(keyword) ||
+    (part.brand || '').toLowerCase().includes(keyword) ||
+    (part.vehicle_model || '').toLowerCase().includes(keyword)
+  );
 
   async function handleDelete(id) {
     if (window.confirm("Are you sure you want to delete this part?")) {
@@ -97,6 +109,8 @@ function Parts() {
                           type="text"
                           className="form-control"
                           placeholder="Search spare part..."
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
                         />
 
                         <span className="input-icon-addon">
@@ -118,9 +132,13 @@ function Parts() {
                           <th>Part Name</th>
                           <th>Part Number</th>
                           <th>Category</th>
+                          <th>Brand</th>
+                          <th>Vehicle Model</th>
                           <th>Purchase Price</th>
                           <th>Sale Price</th>
-                          <th>Stock</th>
+                          <th>Current Stock</th>
+                          <th>Minimum Stock</th>
+                          <th>Status</th>
                           <th>Image</th>
                           <th>Action</th>
                         </tr>
@@ -128,7 +146,7 @@ function Parts() {
 
                       <tbody>
 
-                        {parts && parts.map((part, index) => (
+                        {filteredParts.map((part, index) => (
 
                           <tr key={part.id}>
 
@@ -142,11 +160,24 @@ function Parts() {
 
                             <td>{categoryName(part.category_id)}</td>
 
+                            <td>{part.brand || ''}</td>
+
+                            <td>{part.vehicle_model || ''}</td>
+
                             <td>{part.purchase_price}</td>
 
                             <td>{part.sale_price}</td>
 
                             <td>{part.stock_quantity}</td>
+
+                            <td>{Number(part.minimum_stock) || 0}</td>
+
+                            <td>
+                              {(() => {
+                                const status = getStockStatus(part.stock_quantity, part.minimum_stock);
+                                return <span className={`badge ${status.className}`}>{status.label}</span>;
+                              })()}
+                            </td>
 
                             <td>
                               {part.image && (

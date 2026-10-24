@@ -107,12 +107,24 @@ function PartCreate() {
                     </select>
                   </div>
                   <div className="form-group">
+                    <label htmlFor="partBrand">Brand</label>
+                    <input type="text" name="brand" className="form-control" id="partBrand" placeholder="Enter brand" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="partVehicleModel">Vehicle Model</label>
+                    <input type="text" name="vehicle_model" className="form-control" id="partVehicleModel" placeholder="Enter vehicle model" />
+                  </div>
+                  <div className="form-group">
                     <label htmlFor="partPurchasePrice">Purchase Price</label>
                     <input type="number" step="0.01" name="purchase_price" className="form-control" id="partPurchasePrice" placeholder="Enter purchase price" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="partSalePrice">Sale Price</label>
                     <input type="number" step="0.01" name="sale_price" className="form-control" id="partSalePrice" placeholder="Enter sale price" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="partMinimumStock">Minimum Stock</label>
+                    <input type="number" min="0" step="1" name="minimum_stock" className="form-control" id="partMinimumStock" defaultValue="0" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="partDescription">Description</label>

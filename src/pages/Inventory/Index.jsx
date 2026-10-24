@@ -1,9 +1,7 @@
 import React from 'react';
 import Layout from "../Layout.jsx";
 import axios from '../../Lib/axios.js';
-
-// A part with this stock or less is shown as "Low Stock".
-const LOW_STOCK_LIMIT = 10;
+import { getStockStatus } from '../../Lib/stockStatus.js';
 
 function Inventory() {
   const [items, setItems] = React.useState([]);
@@ -30,16 +28,6 @@ function Inventory() {
     fetchInventory();
   }, []);
 
-  function stockBadge(stock) {
-    if (stock <= 0) {
-      return <span className="badge badge-danger">Out of Stock</span>;
-    }
-    if (stock <= LOW_STOCK_LIMIT) {
-      return <span className="badge badge-warning">Low Stock</span>;
-    }
-    return <span className="badge badge-success">In Stock</span>;
-  }
-
   const keyword = search.trim().toLowerCase();
   const filtered = items.filter((item) =>
     !keyword ||
@@ -53,7 +41,11 @@ function Inventory() {
     (sum, item) => sum + Number(item.stock_quantity) * Number(item.purchase_price),
     0
   );
-  const lowCount = items.filter((item) => Number(item.stock_quantity) <= LOW_STOCK_LIMIT).length;
+  const lowCount = items.filter((item) => {
+    const stock = Number(item.stock_quantity) || 0;
+    return stock > 0 && stock <= (Number(item.minimum_stock) || 0);
+  }).length;
+  const outOfStockCount = items.filter((item) => Number(item.stock_quantity) <= 0).length;
 
 
   return (
@@ -111,8 +103,8 @@ function Inventory() {
           <div className="col-sm-6 col-md-3">
             <div className="card card-round">
               <div className="card-body">
-                <p className="card-category mb-1">Low / Out of Stock</p>
-                <h4 className="card-title">{lowCount}</h4>
+                <p className="card-category mb-1">Low / Out of Stock Items</p>
+                <h4 className="card-title">{lowCount + outOfStockCount}</h4>
               </div>
             </div>
           </div>
@@ -205,7 +197,12 @@ function Inventory() {
 
                           <td>{(Number(item.stock_quantity) * Number(item.purchase_price)).toFixed(2)}</td>
 
-                          <td>{stockBadge(Number(item.stock_quantity))}</td>
+                          <td>
+                            {(() => {
+                              const status = getStockStatus(item.stock_quantity, item.minimum_stock);
+                              return <span className={`badge ${status.className}`}>{status.label}</span>;
+                            })()}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

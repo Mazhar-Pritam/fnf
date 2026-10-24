@@ -1,6 +1,68 @@
+import React from "react";
 import Layout from "./Layout.jsx";
+import axios from '../Lib/axios.js';
 
 function Dashboard() {
+  const [inventorySummary, setInventorySummary] = React.useState({
+    inventoryValue: 0,
+    lowStockItems: 0,
+    outOfStockItems: 0,
+  });
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  React.useEffect(() => {
+    async function fetchInventorySummary() {
+      try {
+        const res = await axios.get('inventory/index.php');
+        if (!res.data.status) {
+          setErrorMessage(res.data.message || 'Unable to load inventory summary.');
+          return;
+        }
+
+        const items = res.data.data || [];
+        setInventorySummary({
+          inventoryValue: items.reduce(
+            (sum, item) => sum + (Number(item.stock_quantity) || 0) * (Number(item.purchase_price) || 0),
+            0
+          ),
+          lowStockItems: items.filter((item) => {
+            const stock = Number(item.stock_quantity) || 0;
+            return stock > 0 && stock <= (Number(item.minimum_stock) || 0);
+          }).length,
+          outOfStockItems: items.filter((item) => Number(item.stock_quantity) <= 0).length,
+        });
+      } catch (error) {
+        console.error('Dashboard inventory load error:', error);
+        setErrorMessage(
+          error.response?.data?.message || 'Unable to load inventory summary. Please try again.'
+        );
+      }
+    }
+
+    fetchInventorySummary();
+  }, []);
+
+  const inventoryCards = [
+    {
+      title: 'Total Inventory Value',
+      value: inventorySummary.inventoryValue.toFixed(2),
+      icon: 'fas fa-luggage-cart',
+      color: 'primary',
+    },
+    {
+      title: 'Low Stock Items',
+      value: inventorySummary.lowStockItems,
+      icon: 'fas fa-exclamation-triangle',
+      color: 'warning',
+    },
+    {
+      title: 'Out Of Stock Items',
+      value: inventorySummary.outOfStockItems,
+      icon: 'fas fa-times-circle',
+      color: 'danger',
+    },
+  ];
+
   return (
     <Layout>
          <div className="container">
@@ -17,91 +79,29 @@ function Dashboard() {
                 <a href="#" className="btn btn-primary btn-round">Add Customer</a>
               </div>
             </div>
+            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
             <div className="row">
-              <div className="col-sm-6 col-md-3">
-                <div className="card card-stats card-round">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col-icon">
-                        <div
-                          className="icon-big text-center icon-primary bubble-shadow-small"
-                        >
-                          <i className="fas fa-users"></i>
+              {inventoryCards.map((card) => (
+                <div className="col-sm-6 col-md-4" key={card.title}>
+                  <div className="card card-stats card-round">
+                    <div className="card-body">
+                      <div className="row align-items-center">
+                        <div className="col-icon">
+                          <div className={`icon-big text-center icon-${card.color} bubble-shadow-small`}>
+                            <i className={card.icon}></i>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-stats ms-3 ms-sm-0">
-                        <div className="numbers">
-                          <p className="card-category">Visitors</p>
-                          <h4 className="card-title">1,294</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-3">
-                <div className="card card-stats card-round">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col-icon">
-                        <div
-                          className="icon-big text-center icon-info bubble-shadow-small"
-                        >
-                          <i className="fas fa-user-check"></i>
-                        </div>
-                      </div>
-                      <div className="col col-stats ms-3 ms-sm-0">
-                        <div className="numbers">
-                          <p className="card-category">Subscribers</p>
-                          <h4 className="card-title">1303</h4>
+                        <div className="col col-stats ms-3 ms-sm-0">
+                          <div className="numbers">
+                            <p className="card-category">{card.title}</p>
+                            <h4 className="card-title">{card.value}</h4>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-6 col-md-3">
-                <div className="card card-stats card-round">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col-icon">
-                        <div
-                          className="icon-big text-center icon-success bubble-shadow-small"
-                        >
-                          <i className="fas fa-luggage-cart"></i>
-                        </div>
-                      </div>
-                      <div className="col col-stats ms-3 ms-sm-0">
-                        <div className="numbers">
-                          <p className="card-category">Sales</p>
-                          <h4 className="card-title">$ 1,345</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-3">
-                <div className="card card-stats card-round">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col-icon">
-                        <div
-                          className="icon-big text-center icon-secondary bubble-shadow-small"
-                        >
-                          <i className="far fa-check-circle"></i>
-                        </div>
-                      </div>
-                      <div className="col col-stats ms-3 ms-sm-0">
-                        <div className="numbers">
-                          <p className="card-category">Order</p>
-                          <h4 className="card-title">576</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
             <div className="row">
               <div className="col-md-8">
