@@ -34,7 +34,17 @@ import SaleReturns from "./pages/SaleReturns/Index.jsx";
 import SaleReturnCreate from "./pages/SaleReturns/Create.jsx";
 import SaleReturnEdit from "./pages/SaleReturns/Edit.jsx";
 import SaleReturnVoucher from "./pages/SaleReturns/Voucher.jsx";
-
+   import Payments from "./pages/Payments/Index.jsx";
+   import PaymentCreate from "./pages/Payments/Create.jsx";
+   import PaymentEdit from "./pages/Payments/Edit.jsx";
+   import Expenses from "./pages/Expenses/Index.jsx";
+   import ExpenseCreate from "./pages/Expenses/Create.jsx";
+   import ExpenseEdit from "./pages/Expenses/Edit.jsx";
+   import Accounts from "./pages/Accounts/Index.jsx";
+   import Ledger from "./pages/Accounts/Ledger.jsx";
+   import ProfitLoss from "./pages/Reports/ProfitLoss.jsx";
+   import SalesReport from "./pages/Reports/SalesReport.jsx";
+   import PurchaseReport from "./pages/Reports/PurchaseReport.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -103,6 +113,21 @@ function App() {
                 <Route path="edit/:id" element={<SaleReturnEdit />} />
                 <Route path="view/:id" element={<SaleReturnVoucher />} />
               </Route>
+                 <Route path="payments">
+                      <Route index element={<Payments />} />
+                      <Route path="create" element={<PaymentCreate />} />
+                      <Route path="edit/:id" element={<PaymentEdit />} />
+                    </Route>
+                    <Route path="expenses">
+                      <Route index element={<Expenses />} />
+                      <Route path="create" element={<ExpenseCreate />} />
+                      <Route path="edit/:id" element={<ExpenseEdit />} />
+                    </Route>
+                    <Route path="accounts" element={<Accounts />} />
+                    <Route path="accounts/ledger" element={<Ledger />} />
+                    <Route path="reports/profit-loss" element={<ProfitLoss />} />
+                    <Route path="reports/sales" element={<SalesReport />} />
+                    <Route path="reports/purchases" element={<PurchaseReport />} />
       </Routes>
     </BrowserRouter>
   );

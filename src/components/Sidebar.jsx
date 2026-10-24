@@ -1,6 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router";
 
 function Sidebar() {
+  // Returns submenu open / closed
+  const [returnsOpen, setReturnsOpen] = useState(false);
+  const [accountsOpen, setAccountsOpen] = useState(false);
+  const [reportsOpen, setReportsOpen] = useState(false);
+
   return (
     <div className="sidebar" data-background-color="dark">
         <div className="sidebar-logo">
@@ -182,13 +188,20 @@ function Sidebar() {
                 </Link>
               </li>
 
-              <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#returns">
+              <li className={returnsOpen ? "nav-item submenu" : "nav-item"}>
+                <a
+                  href="#returns"
+                  aria-expanded={returnsOpen}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setReturnsOpen(!returnsOpen);
+                  }}
+                >
                   <i className="fas fa-undo"></i>
                   <p>Returns</p>
                   <span className="caret"></span>
                 </a>
-                <div className="collapse" id="returns">
+                <div className={returnsOpen ? "collapse show" : "collapse"} id="returns">
                   <ul className="nav nav-collapse">
                     <li>
                       <Link to="/purchase-returns">
@@ -198,6 +211,79 @@ function Sidebar() {
                     <li>
                       <Link to="/sale-returns">
                         <span className="sub-item">Sale Return</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li className={accountsOpen ? "nav-item submenu" : "nav-item"}>
+                <a
+                  href="#accounts"
+                  aria-expanded={accountsOpen}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAccountsOpen(!accountsOpen);
+                  }}
+                >
+                  <i className="fas fa-wallet"></i>
+                  <p>Accounts</p>
+                  <span className="caret"></span>
+                </a>
+                <div className={accountsOpen ? "collapse show" : "collapse"} id="accounts">
+                  <ul className="nav nav-collapse">
+                    <li>
+                      <Link to="/accounts">
+                        <span className="sub-item">Overview</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/payments">
+                        <span className="sub-item">Payments</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/expenses">
+                        <span className="sub-item">Expenses</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/accounts/ledger">
+                        <span className="sub-item">Party Ledger</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li className={reportsOpen ? "nav-item submenu" : "nav-item"}>
+                <a
+                  href="#reports"
+                  aria-expanded={reportsOpen}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setReportsOpen(!reportsOpen);
+                  }}
+                >
+                  <i className="fas fa-chart-line"></i>
+                  <p>Reports</p>
+                  <span className="caret"></span>
+                </a>
+                <div className={reportsOpen ? "collapse show" : "collapse"} id="reports">
+                  <ul className="nav nav-collapse">
+                    <li>
+                      <Link to="/reports/profit-loss">
+                        <span className="sub-item">Profit &amp; Loss</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/reports/sales">
+                        <span className="sub-item">Sales Report</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/reports/purchases">
+                        <span className="sub-item">Purchase Report</span>
                       </Link>
                     </li>
                   </ul>
