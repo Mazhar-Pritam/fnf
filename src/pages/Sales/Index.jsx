@@ -130,6 +130,8 @@ function Sales() {
                           <th>Customer</th>
                           <th>Sale Date</th>
                           <th>Total Amount</th>
+                          <th>Paid</th>
+                          <th>Due</th>
                           <th>Note</th>
                           <th>Action</th>
                         </tr>
@@ -153,11 +155,24 @@ function Sales() {
 
                             <td>{Number(sale.total_amount).toFixed(2)}</td>
 
+                            <td>{Number(sale.paid_amount).toFixed(2)}</td>
+
+                            <td className={Number(sale.total_amount) - Number(sale.paid_amount) > 0 ? 'text-danger' : ''}>
+                              {(Number(sale.total_amount) - Number(sale.paid_amount)).toFixed(2)}
+                            </td>
+
                             <td>{sale.note}</td>
 
                             <td>
 
                               <div className="form-button-action">
+
+                                <Link to={`/sales/view/${sale.id}`}
+                                  className="btn btn-link btn-info"
+                                  title="View / Print"
+                                >
+                                  <i className="fa fa-print"></i>
+                                </Link>
 
                                 <Link to={`/sales/edit/${sale.id}`}
                                   className="btn btn-link btn-primary"
@@ -173,9 +188,6 @@ function Sales() {
                                 >
                                   <i className="fa fa-trash"></i>
                                 </button>
-                                   <Link to={`/sales/view/${sale.id}`} className="btn btn-link btn-info" title="View / Print">
-     <i className="fa fa-print"></i>
-   </Link>
                               </div>
                             </td>
                           </tr>

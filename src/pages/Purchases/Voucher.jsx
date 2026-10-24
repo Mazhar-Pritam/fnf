@@ -162,6 +162,14 @@ function PurchaseVoucher() {
                         <th colSpan="4" className="text-end">Grand Total</th>
                         <th className="text-end">{total.toFixed(2)}</th>
                       </tr>
+                      <tr>
+                        <th colSpan="4" className="text-end">Paid</th>
+                        <th className="text-end">{Number(purchase.paid_amount || 0).toFixed(2)}</th>
+                      </tr>
+                      <tr>
+                        <th colSpan="4" className="text-end">Due</th>
+                        <th className="text-end">{Math.max(total - Number(purchase.paid_amount || 0), 0).toFixed(2)}</th>
+                      </tr>
                     </tfoot>
                   </table>
                 </div>

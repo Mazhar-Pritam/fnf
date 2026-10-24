@@ -53,6 +53,7 @@ function SalesReport() {
 
   const totalAmount = rows.reduce((sum, row) => sum + Number(row.total_amount), 0);
   const totalReturned = rows.reduce((sum, row) => sum + Number(row.returned), 0);
+  const totalPaid = rows.reduce((sum, row) => sum + Number(row.paid_amount), 0);
 
 
   return (
@@ -146,6 +147,7 @@ function SalesReport() {
                           <th>Customer</th>
                           <th className="text-end">Total</th>
                           <th className="text-end">Returned</th>
+                          <th className="text-end">Paid</th>
                           <th className="text-end">Net</th>
                         </tr>
                       </thead>
@@ -158,12 +160,13 @@ function SalesReport() {
                             <td>{row.party_name}</td>
                             <td className="text-end">{money(row.total_amount)}</td>
                             <td className="text-end">{money(row.returned)}</td>
+                            <td className="text-end">{money(row.paid_amount)}</td>
                             <td className="text-end">{money(Number(row.total_amount) - Number(row.returned))}</td>
                           </tr>
                         ))}
                         {rows.length === 0 && (
                           <tr>
-                            <td colSpan="7" className="text-muted">No sales in this period</td>
+                            <td colSpan="8" className="text-muted">No sales in this period</td>
                           </tr>
                         )}
                       </tbody>
@@ -172,6 +175,7 @@ function SalesReport() {
                           <th colSpan="4" className="text-end">Total</th>
                           <th className="text-end">{money(totalAmount)}</th>
                           <th className="text-end">{money(totalReturned)}</th>
+                          <th className="text-end">{money(totalPaid)}</th>
                           <th className="text-end">{money(totalAmount - totalReturned)}</th>
                         </tr>
                       </tfoot>
@@ -179,7 +183,7 @@ function SalesReport() {
                   </div>
 
                   <p className="text-muted mb-0">
-                    "Returned" is the total of all returns made against that invoice.
+                    "Returned" is the total of all returns made against that invoice. "Paid" is the money paid on the invoice itself.
                   </p>
 
                 </div>

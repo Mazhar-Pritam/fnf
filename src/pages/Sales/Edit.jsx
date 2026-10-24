@@ -18,6 +18,14 @@ function SaleEdit() {
   ]);
   const [errorMessage, setErrorMessage] = React.useState('');
 
+  // Total of all item rows, and how much of it is still due.
+  const total = items.reduce(
+    (sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.unit_price) || 0),
+    0
+  );
+  const paidNow = Number(sale.paid_amount) || 0;
+  const due = Math.max(total - paidNow, 0);
+
   async function fetchData() {
     try {
       const [saleRes, customerRes, categoryRes, partRes] = await Promise.all([
@@ -63,6 +71,7 @@ function SaleEdit() {
       customer_id: formData.get('customer_id'),
       sale_date: formData.get('sale_date'),
       note: formData.get('note'),
+      paid_amount: sale.paid_amount,
       items: items.map(({ part_id, quantity, unit_price }) => ({ part_id, quantity, unit_price })),
     };
 
@@ -151,6 +160,29 @@ function SaleEdit() {
                   </div>
 
                   <SaleItems items={items} setItems={setItems} categories={categories} parts={parts} originalItems={originalItems} />
+
+                  <div className="form-group">
+                    <label htmlFor="salePaid">Paid Amount</label>
+                    <div className="input-group">
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={sale.paid_amount ?? ''}
+                        onChange={(e) => setSale({...sale, paid_amount: e.target.value})}
+                        className="form-control"
+                        id="salePaid"
+                        placeholder="0 = nothing paid yet (full due)"
+                      />
+                      <button type="button" className="btn btn-secondary" onClick={() => setSale({...sale, paid_amount: total.toFixed(2)})}>
+                        Paid in full
+                      </button>
+                    </div>
+                    <small className={due > 0 ? 'text-danger' : 'text-success'}>
+                      Total {total.toFixed(2)} &nbsp;|&nbsp; Paid {paidNow.toFixed(2)} &nbsp;|&nbsp; Due {due.toFixed(2)}
+                      {due === 0 && total > 0 ? ' (paid in full)' : ''}
+                    </small>
+                  </div>
 
                   <button type="submit" className="btn btn-primary mt-3">Update Sale</button>
                 </form>

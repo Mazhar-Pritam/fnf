@@ -11,7 +11,16 @@ function SaleCreate() {
   const [items, setItems] = React.useState([
     { category_id: '', part_id: '', quantity: 1, unit_price: '' }
   ]);
+  const [paid, setPaid] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+
+  // Total of all item rows, and how much of it is still due.
+  const total = items.reduce(
+    (sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.unit_price) || 0),
+    0
+  );
+  const paidNow = Number(paid) || 0;
+  const due = Math.max(total - paidNow, 0);
 
   async function fetchData() {
     try {
@@ -46,6 +55,7 @@ function SaleCreate() {
       customer_id: formData.get('customer_id'),
       sale_date: formData.get('sale_date'),
       note: formData.get('note'),
+      paid_amount: paid,
       items: items.map(({ part_id, quantity, unit_price }) => ({ part_id, quantity, unit_price })),
     };
 
@@ -134,6 +144,29 @@ function SaleCreate() {
                   </div>
 
                   <SaleItems items={items} setItems={setItems} categories={categories} parts={parts} />
+
+                  <div className="form-group">
+                    <label htmlFor="salePaid">Paid Amount</label>
+                    <div className="input-group">
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={paid}
+                        onChange={(e) => setPaid(e.target.value)}
+                        className="form-control"
+                        id="salePaid"
+                        placeholder="0 = nothing paid yet (full due)"
+                      />
+                      <button type="button" className="btn btn-secondary" onClick={() => setPaid(total.toFixed(2))}>
+                        Paid in full
+                      </button>
+                    </div>
+                    <small className={due > 0 ? 'text-danger' : 'text-success'}>
+                      Total {total.toFixed(2)} &nbsp;|&nbsp; Paid {paidNow.toFixed(2)} &nbsp;|&nbsp; Due {due.toFixed(2)}
+                      {due === 0 && total > 0 ? ' (paid in full)' : ''}
+                    </small>
+                  </div>
 
                   <button type="submit" className="btn btn-primary mt-3">Add Sale</button>
                 </form>
