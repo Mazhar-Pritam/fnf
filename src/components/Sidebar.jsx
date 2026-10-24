@@ -183,6 +183,28 @@ function Sidebar() {
               </li>
 
               <li className="nav-item">
+                <a data-bs-toggle="collapse" href="#returns">
+                  <i className="fas fa-undo"></i>
+                  <p>Returns</p>
+                  <span className="caret"></span>
+                </a>
+                <div className="collapse" id="returns">
+                  <ul className="nav nav-collapse">
+                    <li>
+                      <Link to="/purchase-returns">
+                        <span className="sub-item">Purchase Return</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/sale-returns">
+                        <span className="sub-item">Sale Return</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li className="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                   <i className="fas fa-table"></i>
                   <p>Tables</p>

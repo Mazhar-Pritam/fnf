@@ -24,8 +24,17 @@ import Inventory from "./pages/Inventory/Index.jsx";
 import SalesIndex from "./pages/Sales/Index.jsx";
 import SaleCreate from "./pages/Sales/Create.jsx";
 import SaleEdit from "./pages/Sales/Edit.jsx";
-   import PurchaseVoucher from "./pages/Purchases/Voucher.jsx";
-   import SaleVoucher from "./pages/Sales/Voucher.jsx";
+import PurchaseVoucher from "./pages/Purchases/Voucher.jsx";
+import SaleVoucher from "./pages/Sales/Voucher.jsx";
+import PurchaseReturns from "./pages/PurchaseReturns/Index.jsx";
+import PurchaseReturnCreate from "./pages/PurchaseReturns/Create.jsx";
+import PurchaseReturnEdit from "./pages/PurchaseReturns/Edit.jsx";
+import PurchaseReturnVoucher from "./pages/PurchaseReturns/Voucher.jsx";
+import SaleReturns from "./pages/SaleReturns/Index.jsx";
+import SaleReturnCreate from "./pages/SaleReturns/Create.jsx";
+import SaleReturnEdit from "./pages/SaleReturns/Edit.jsx";
+import SaleReturnVoucher from "./pages/SaleReturns/Voucher.jsx";
+
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -82,6 +91,18 @@ function App() {
               <Route path="edit/:id" element={<SaleEdit />} />
               <Route path="view/:id" element={<SaleVoucher />} />
             </Route>
+               <Route path="purchase-returns">
+                <Route index element={<PurchaseReturns />} />
+                <Route path="create" element={<PurchaseReturnCreate />} />
+                <Route path="edit/:id" element={<PurchaseReturnEdit />} />
+                <Route path="view/:id" element={<PurchaseReturnVoucher />} />
+              </Route>
+              <Route path="sale-returns">
+                <Route index element={<SaleReturns />} />
+                <Route path="create" element={<SaleReturnCreate />} />
+                <Route path="edit/:id" element={<SaleReturnEdit />} />
+                <Route path="view/:id" element={<SaleReturnVoucher />} />
+              </Route>
       </Routes>
     </BrowserRouter>
   );

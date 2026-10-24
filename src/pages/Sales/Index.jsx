@@ -159,13 +159,6 @@ function Sales() {
 
                               <div className="form-button-action">
 
-                                <Link to={`/sales/view/${sale.id}`}
-                                  className="btn btn-link btn-info"
-                                  title="View / Print"
-                                >
-                                  <i className="fa fa-print"></i>
-                                </Link>
-
                                 <Link to={`/sales/edit/${sale.id}`}
                                   className="btn btn-link btn-primary"
                                   title="Edit"
@@ -180,6 +173,9 @@ function Sales() {
                                 >
                                   <i className="fa fa-trash"></i>
                                 </button>
+                                   <Link to={`/sales/view/${sale.id}`} className="btn btn-link btn-info" title="View / Print">
+     <i className="fa fa-print"></i>
+   </Link>
                               </div>
                             </td>
                           </tr>
