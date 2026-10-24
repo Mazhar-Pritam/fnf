@@ -147,6 +147,9 @@ function Purchases() {
                             <td>
 
                               <div className="form-button-action">
+                                   <Link to={`/purchases/view/${purchase.id}`} className="btn btn-link btn-info" title="View / Print">
+                                      <i className="fa fa-print"></i>
+                                    </Link>
 
                                 <Link to={`/purchases/edit/${purchase.id}`}
                                   className="btn btn-link btn-primary"

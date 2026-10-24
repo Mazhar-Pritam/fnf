@@ -14,7 +14,7 @@ function PurchaseEdit() {
   const [parts, setParts] = React.useState([]);
   const [originalItems, setOriginalItems] = React.useState([]);
   const [items, setItems] = React.useState([
-    { category_id: '', part_id: '', quantity: 1, unit_price: '' }
+    { category_id: '', part_id: '', quantity: 1, unit_price: '', sale_price: '' }
   ]);
   const [errorMessage, setErrorMessage] = React.useState('');
 
@@ -63,7 +63,7 @@ function PurchaseEdit() {
       supplier_id: formData.get('supplier_id'),
       purchase_date: formData.get('purchase_date'),
       note: formData.get('note'),
-      items: items.map(({ part_id, quantity, unit_price }) => ({ part_id, quantity, unit_price })),
+      items: items.map(({ part_id, quantity, unit_price, sale_price }) => ({ part_id, quantity, unit_price, sale_price })),
     };
 
     try {

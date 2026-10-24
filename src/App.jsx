@@ -21,6 +21,11 @@ import Parts from "./pages/Parts/Index.jsx";
 import PartCreate from "./pages/Parts/Create.jsx";
 import PartEdit from "./pages/Parts/Edit.jsx";
 import Inventory from "./pages/Inventory/Index.jsx";
+import SalesIndex from "./pages/Sales/Index.jsx";
+import SaleCreate from "./pages/Sales/Create.jsx";
+import SaleEdit from "./pages/Sales/Edit.jsx";
+   import PurchaseVoucher from "./pages/Purchases/Voucher.jsx";
+   import SaleVoucher from "./pages/Sales/Voucher.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -69,7 +74,14 @@ function App() {
             <Route index element={<Purchases />} />
             <Route path="create" element={<PurchaseCreate />} />
             <Route path="edit/:id" element={<PurchaseEdit />} />
+               <Route path="view/:id" element={<PurchaseVoucher />} />
           </Route>
+             <Route path="sales">
+              <Route index element={<SalesIndex />} />
+              <Route path="create" element={<SaleCreate />} />
+              <Route path="edit/:id" element={<SaleEdit />} />
+              <Route path="view/:id" element={<SaleVoucher />} />
+            </Route>
       </Routes>
     </BrowserRouter>
   );

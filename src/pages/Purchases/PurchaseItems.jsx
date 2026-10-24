@@ -12,17 +12,18 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
   }
 
   function handleCategoryChange(index, category_id) {
-    updateItem(index, { category_id, part_id: '', unit_price: '' });
+    updateItem(index, { category_id, part_id: '', unit_price: '', sale_price: '' });
   }
 
   function handlePartChange(index, part_id) {
     const part = parts.find((p) => p.id == part_id);
-    const price = part && parseFloat(part.purchase_price) > 0 ? part.purchase_price : '';
-    updateItem(index, { part_id, unit_price: price });
+    const buyPrice = part && parseFloat(part.purchase_price) > 0 ? part.purchase_price : '';
+    const sellPrice = part && parseFloat(part.sale_price) > 0 ? part.sale_price : '';
+    updateItem(index, { part_id, unit_price: buyPrice, sale_price: sellPrice });
   }
 
   function addItem() {
-    setItems([...items, { category_id: '', part_id: '', quantity: 1, unit_price: '' }]);
+    setItems([...items, { category_id: '', part_id: '', quantity: 1, unit_price: '', sale_price: '' }]);
   }
 
   function removeItem(index) {
@@ -46,7 +47,8 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
               <th>In Stock Now</th>
               <th>Quantity</th>
               <th>After Purchase</th>
-              <th>Unit Price</th>
+              <th>Purchase Price</th>
+              <th>Sale Price</th>
               <th>Line Total</th>
               <th></th>
             </tr>
@@ -71,6 +73,7 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
                       className="form-select"
                       value={item.category_id || ''}
                       onChange={(e) => handleCategoryChange(index, e.target.value)}
+                      required
                     >
                       <option value="">Select category</option>
                       {categories.map((category) => (
@@ -84,6 +87,7 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
                       value={item.part_id || ''}
                       onChange={(e) => handlePartChange(index, e.target.value)}
                       disabled={!item.category_id}
+                      required
                     >
                       <option value="">Select part</option>
                       {categoryParts.map((part) => (
@@ -101,6 +105,7 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
                       className="form-control"
                       value={item.quantity}
                       onChange={(e) => updateItem(index, { quantity: e.target.value })}
+                      required
                     />
                   </td>
                   <td>{stockAfter === null ? '-' : stockAfter}</td>
@@ -112,7 +117,23 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
                       className="form-control"
                       value={item.unit_price}
                       onChange={(e) => updateItem(index, { unit_price: e.target.value })}
+                      required
                     />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      className="form-control"
+                      value={item.sale_price ?? ''}
+                      onChange={(e) => updateItem(index, { sale_price: e.target.value })}
+                      required
+                    />
+                    {item.sale_price !== undefined && item.sale_price !== '' && item.unit_price !== '' &&
+                      Number(item.sale_price) < Number(item.unit_price) && (
+                        <small className="text-danger">Below purchase price</small>
+                    )}
                   </td>
                   <td>{lineTotal.toFixed(2)}</td>
                   <td>
@@ -132,7 +153,7 @@ function PurchaseItems({ items, setItems, categories, parts, originalItems = [] 
           </tbody>
           <tfoot>
             <tr>
-              <th colSpan="6" className="text-end">Grand Total</th>
+              <th colSpan="7" className="text-end">Grand Total</th>
               <th>{grandTotal.toFixed(2)}</th>
               <th></th>
             </tr>
