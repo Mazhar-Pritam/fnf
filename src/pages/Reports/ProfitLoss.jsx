@@ -20,18 +20,62 @@ function ProfitLoss() {
   async function fetchReport() {
     setErrorMessage('');
     try {
-      let res = await axios.get('report/profit_loss.php?from=' + from + '&to=' + to);
-      if (res.data.status) {
-        setReport(res.data.data);
-      } else {
+      const [reportResponse, expensesResponse] = await Promise.all([
+        axios.get('report/profit_loss.php', { params: { from, to } }),
+        axios.get('expense/index.php'),
+      ]);
+
+      if (!reportResponse.data.status) {
         setReport(null);
-        setErrorMessage(res.data.message || 'Unable to load the report.');
+        setErrorMessage(reportResponse.data.message || 'Unable to load the report.');
+        return;
       }
+
+      if (expensesResponse.data.status === false || !Array.isArray(expensesResponse.data.data)) {
+        throw new Error(expensesResponse.data.message || 'Invalid expenses response.');
+      }
+
+      const expensesByCategory = new Map();
+      for (const expense of expensesResponse.data.data) {
+        const expenseDate = String(expense.expense_date || '').slice(0, 10);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(expenseDate)) {
+          throw new Error('An expense has an invalid transaction date.');
+        }
+        if (expenseDate < from || expenseDate > to) continue;
+
+        const category = String(expense.category || '').trim();
+        const amount = Number(expense.amount);
+        if (!category || !Number.isFinite(amount)) {
+          throw new Error('An expense has a missing category or invalid amount.');
+        }
+
+        expensesByCategory.set(
+          category,
+          (expensesByCategory.get(category) || 0) + amount
+        );
+      }
+
+      const expenses = [...expensesByCategory].map(([category, total]) => ({
+        category,
+        total,
+      }));
+      const grossProfit = Number(reportResponse.data.data.gross_profit);
+      if (!Number.isFinite(grossProfit)) {
+        throw new Error('The report contains an invalid gross profit.');
+      }
+
+      const totalExpenses = expenses.reduce((total, expense) => total + expense.total, 0);
+      setReport({
+        ...reportResponse.data.data,
+        expenses,
+        total_expenses: totalExpenses,
+        net_profit: grossProfit - totalExpenses,
+      });
     } catch (error) {
       console.error('Profit and loss load error:', error);
       setReport(null);
       setErrorMessage(
-        error.response?.data?.message || 'Unable to load the report. Please try again.'
+        error.response?.data?.message || error.message || 'Unable to load the report. Please try again.'
       );
     }
   }

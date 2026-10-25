@@ -54,11 +54,8 @@ function Sidebar() {
                 <h4 className="text-section">Components</h4>
               </li>
               <li className="nav-item">
-                <Link data-bs-toggle="collapse" to="#base">
-                  <i className="fas fa-layer-group"></i>
-                  <p>Base</p>
-                  <span className="caret"></span>
-                </Link>
+                
+                  
                 <div className="collapse" id="base">
                   <ul className="nav nav-collapse">
                     <li>
@@ -130,13 +127,7 @@ function Sidebar() {
                   </ul>
                 </div>
               </li>
-              <li className="nav-item">
-                <Link data-bs-toggle="collapse" to="/form">
-                  <i className="fas fa-pen-square"></i>
-                  <p>Forms</p>
-                  <span className="caret"></span>
-                </Link>
-                
+              <li className="nav-item">            
               </li>
               <li className="nav-item">
                 <Link data-bs-toggle="collapse" to="/inventory">
@@ -291,11 +282,7 @@ function Sidebar() {
               </li>
 
               <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#tables">
-                  <i className="fas fa-table"></i>
-                  <p>Tables</p>
-                  <span className="caret"></span>
-                </a>
+                
                 <div className="collapse" id="tables">
                   <ul className="nav nav-collapse">
                     <li>
@@ -312,17 +299,11 @@ function Sidebar() {
                 </div>
               </li>
               <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#maps">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <p>Maps</p>
-                  <span className="caret"></span>
-                </a>
+               
                 <div className="collapse" id="maps">
                   <ul className="nav nav-collapse">
                     <li>
-                      <a href="maps/googlemaps.html">
-                        <span className="sub-item">Google Maps</span>
-                      </a>
+                     
                     </li>
                     <li>
                       <a href="maps/jsvectormap.html">
@@ -333,18 +314,9 @@ function Sidebar() {
                 </div>
               </li>
               <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#charts">
-                  <i className="far fa-chart-bar"></i>
-                  <p>Charts</p>
-                  <span className="caret"></span>
-                </a>
                 <div className="collapse" id="charts">
                   <ul className="nav nav-collapse">
-                    <li>
-                      <a href="charts/charts.html">
-                        <span className="sub-item">Chart Js</span>
-                      </a>
-                    </li>
+                    
                     <li>
                       <a href="charts/sparkline.html">
                         <span className="sub-item">Sparkline</span>
@@ -354,23 +326,14 @@ function Sidebar() {
                 </div>
               </li>
               <li className="nav-item">
-                <a href="widgets.html">
-                  <i className="fas fa-desktop"></i>
-                  <p>Widgets</p>
-                  <span className="badge badge-success">4</span>
-                </a>
+               
               </li>
               <li className="nav-item">
-                <a href="../../documentation/index.html">
-                  <i className="fas fa-file"></i>
-                  <p>Documentation</p>
-                  <span className="badge badge-secondary">1</span>
-                </a>
               </li>
               <li className="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                   <i className="fas fa-bars"></i>
-                  <p>Menu Levels</p>
+                  <p>Users</p>
                   <span className="caret"></span>
                 </a>
                 <div className="collapse" id="submenu">
