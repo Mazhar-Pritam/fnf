@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Dashboard from "./pages/Dashboard.jsx";
+//import Dashboard from "./pages/Dashboard.jsx";
 import Categories from "./pages/Categories/Index.jsx"; 
 import CategoryCreate from "./pages/Categories/Create.jsx"; 
 import CategoryEdit from "./pages/Categories/Edit.jsx"; 
@@ -34,17 +34,18 @@ import SaleReturns from "./pages/SaleReturns/Index.jsx";
 import SaleReturnCreate from "./pages/SaleReturns/Create.jsx";
 import SaleReturnEdit from "./pages/SaleReturns/Edit.jsx";
 import SaleReturnVoucher from "./pages/SaleReturns/Voucher.jsx";
-   import Payments from "./pages/Payments/Index.jsx";
-   import PaymentCreate from "./pages/Payments/Create.jsx";
-   import PaymentEdit from "./pages/Payments/Edit.jsx";
-   import Expenses from "./pages/Expenses/Index.jsx";
-   import ExpenseCreate from "./pages/Expenses/Create.jsx";
-   import ExpenseEdit from "./pages/Expenses/Edit.jsx";
-   import Accounts from "./pages/Accounts/Index.jsx";
-   import Ledger from "./pages/Accounts/Ledger.jsx";
-   import ProfitLoss from "./pages/Reports/ProfitLoss.jsx";
-   import SalesReport from "./pages/Reports/SalesReport.jsx";
-   import PurchaseReport from "./pages/Reports/PurchaseReport.jsx";
+import Payments from "./pages/Payments/Index.jsx";
+import PaymentCreate from "./pages/Payments/Create.jsx";
+import PaymentEdit from "./pages/Payments/Edit.jsx";
+import Expenses from "./pages/Expenses/Index.jsx";
+import ExpenseCreate from "./pages/Expenses/Create.jsx";
+import ExpenseEdit from "./pages/Expenses/Edit.jsx";
+import Accounts from "./pages/Accounts/Index.jsx";
+import Ledger from "./pages/Accounts/Ledger.jsx";
+import ProfitLoss from "./pages/Reports/ProfitLoss.jsx";
+import SalesReport from "./pages/Reports/SalesReport.jsx";
+import PurchaseReport from "./pages/Reports/PurchaseReport.jsx";
+import Dashboard from "./pages/Dashboard/Index.jsx";
 function App() {
    const [ isSignedIn, setIsSignedIn ] = useState(()=> {
     /* if you want, user will be logged in until they logout*/
@@ -60,8 +61,10 @@ function App() {
 
         <Route element={<Protected isSignedIn={isSignedIn} />}>
           <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
+           {/* <Route path="dashboard" element={<Dashboard />} /> */}
+           <Route path="/" element={<Dashboard />} />
           <Route path="logout" element={<Logout />} />
+          
 
           <Route path="categories">
             <Route index element={<Categories />} />
